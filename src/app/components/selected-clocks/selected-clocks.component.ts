@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { map, timer } from 'rxjs';
-import { ClockToken } from 'src/app/interface/clock-token';
+import { ClockToken } from '../../interface/clock-token';
 
 @Component({
   selector: 'app-selected-clocks',

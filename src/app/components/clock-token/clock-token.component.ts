@@ -1,5 +1,5 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
-import { ClockToken } from 'src/app/interface/clock-token';
+import { ClockToken } from '../../interface/clock-token';
 
 @Component({
   selector: 'app-clock-token',
@@ -9,4 +9,6 @@ import { ClockToken } from 'src/app/interface/clock-token';
 })
 export class ClockTokenComponent {
   @Input() data: ClockToken = { location: '', utc: 0 };
+
+  
 }
