@@ -1,0 +1,15 @@
+<div>
+	<div id="current-time-container">
+		<h2>Current Time</h2>
+		<span>{{currentTime | async | date: "hh:mm:ss a"}}</span>
+	</div>
+	<div id="clock-token-container">
+		<div id="add-clock-token" class="clock-token">
+			<div class="clock-token-time"></div>
+			<span class="clock-token-name"></span>
+			<span class="clock-token-utc"></span>
+		</div>
+
+		<app-clock-token *ngFor="let clock of clocks" [data]="clock"></app-clock-token>
+	</div>
+</div>
