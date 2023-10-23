@@ -7,10 +7,14 @@
 <circle cx="32" cy="32" r="2" fill="black"/>
 <rect x="30" width="4" height="8" fill="black"/>
 <rect x="56" y="30" width="8" height="4" fill="black"/>
-<rect x="51" y="11" width="16" height="2" transform="rotate(-45 51 11)" fill="black"/>
-<rect y="63" width="16" height="2" transform="rotate(-45 0 63)" fill="black"/>
-<rect x="63" y="64" width="16" height="2" transform="rotate(-135 63 64)" fill="black"/>
-<rect x="11" y="13" width="16" height="2" transform="rotate(-135 11 13)" fill="black"/>
+<rect x="55.8025" y="16.6218" width="16" height="2" transform="rotate(-30 55.8025 16.6218)" fill="black"/>
+<rect x="-6.9183" y="53.6502" width="16" height="2" transform="rotate(-30 -6.9183 53.6502)" fill="black"/>
+<rect x="53.6762" y="70.9217" width="16" height="2" transform="rotate(-120 53.6762 70.9217)" fill="black"/>
+<rect x="16.6478" y="8.20093" width="16" height="2" transform="rotate(-120 16.6478 8.20093)" fill="black"/>
+<rect x="44.9061" y="6.81268" width="16" height="2" transform="rotate(-60 44.9061 6.81268)" fill="black"/>
+<rect x="9.10247" y="70.2406" width="16" height="2" transform="rotate(-60 9.10247 70.2406)" fill="black"/>
+<rect x="70.2146" y="54.9009" width="16" height="2" transform="rotate(-150 70.2146 54.9009)" fill="black"/>
+<rect x="6.7867" y="19.0973" width="16" height="2" transform="rotate(-150 6.7867 19.0973)" fill="black"/>
 <path d="M0 30H8V34H0V30Z" fill="black"/>
 <rect x="30" y="56" width="4" height="8" fill="black"/>
 </g>

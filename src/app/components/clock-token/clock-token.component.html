@@ -2,10 +2,10 @@
 	<div class="clock-token">
 		<img src="assets/svg/face.svg">
 		<div class="clock-token-time">
-			<div class="minute-hand"></div>
-			<div class="hour-hand"></div>
+			<div #minuteHand class="minute-hand"></div>
+			<div #hourHand class="hour-hand"></div>
 		</div>
 	</div>
-	<span class="clock-token-name"></span>
-	<span class="clock-token-utc"></span>
+	<span class="clock-token-name">{{data.location.replace('/', '\n')}}</span>
+	<span class="clock-token-utc">{{utc}}</span>
 </div>

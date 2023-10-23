@@ -1,4 +1,5 @@
+import { TimeZone } from "./time-zone";
+
 export interface ClockToken {
-	location: string;
-	utc: number; // + or -
+	location: TimeZone;
 }

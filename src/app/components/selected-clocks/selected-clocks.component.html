@@ -2,7 +2,7 @@
 	<div id="current-time-container">
 		<h2>Current Time</h2>
 		<p>{{currentDate | date: "yyyy MMM dd"}}</p>
-		<p>{{currentTime$ | async | date: "h:mm:ss a z"}}</p>
+		<p>{{currentTime$ | async | date:"h:mm:ss a 'UTC'Z"}}</p>
 	</div>
 	<div id="clock-tokens">
 		<div id="add-clock-token" class="clock-token-container">

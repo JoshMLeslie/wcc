@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { map, timer } from 'rxjs';
 import { ClockToken } from '../../interface/clock-token';
 import { TimeService } from 'src/app/service/time.service';
+import { TimeZone } from 'src/app/interface/time-zone';
 
 @Component({
   selector: 'app-selected-clocks',
@@ -23,32 +24,25 @@ export class SelectedClocksComponent implements OnInit {
     this.clocks = JSON.parse(localStorage.getItem('clock-tokens') || '[]');
     // TEST
     this.clocks.push({
-      location: 'Australia',
-      utc: 11,
+      location: TimeZone['AUSTRALIA/BRISBANE'],
     });
     this.clocks.push({
-      location: 'Australia',
-      utc: 11,
+      location: TimeZone['AUSTRALIA/BRISBANE'],
     });
     this.clocks.push({
-      location: 'Australia',
-      utc: 11,
+      location: TimeZone['AUSTRALIA/BRISBANE'],
     });
     this.clocks.push({
-      location: 'Australia',
-      utc: 11,
+      location: TimeZone['AUSTRALIA/BRISBANE'],
     });
     this.clocks.push({
-      location: 'Australia',
-      utc: 11,
+      location: TimeZone['AUSTRALIA/BRISBANE'],
     });
     this.clocks.push({
-      location: 'Australia',
-      utc: 11,
+      location: TimeZone['AUSTRALIA/BRISBANE'],
     });
     this.clocks.push({
-      location: 'Australia',
-      utc: 11,
+      location: TimeZone['AUSTRALIA/BRISBANE'],
     });
     // TEST
   }
