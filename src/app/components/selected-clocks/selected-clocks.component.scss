@@ -1,10 +1,21 @@
 #current-time-container {
-	text-align: center;
+  text-align: center;
 }
 
-#clock-token-container {
-	display: flex;
-	padding: 1rem;
-	gap: 1rem;
-	overflow-x: auto;
+#clock-tokens {
+  display: flex;
+  width: 100%;
+  padding: 1rem;
+  gap: 1rem;
+  overflow-x: auto;
+}
+
+#add-clock-token {
+	.clock-token-time {
+		display: none;
+	}
+  .clock-token-text {
+		position: absolute;
+    font-size: 3rem;
+  }
 }

@@ -1,6 +1,45 @@
+.clock-token-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
 .clock-token {
-	height: 4rem;
-	width: 4rem;
-	border-radius: 50%;
-	background: lightgray;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.clock-token-time {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 4rem;
+  min-width: 4rem;
+  height: 4rem;
+  width: 4rem;
+
+  .hour-hand,
+  .minute-hand {
+    position: absolute;
+    width: 4px;
+    transform-origin: 2px 0; // half width
+    border-radius: 2px;
+		transition: transform 100ms ease-in-out;
+  }
+  .hour-hand {
+    background-color: white;
+    height: 16px;
+    transform: translate(0, 8px) rotate(180deg); // half height
+  }
+  .minute-hand {
+    background-color: lightgray;
+    height: 24px;
+    transform: translate(0, 12px) rotate(180deg); // half height
+  }
 }

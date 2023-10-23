@@ -1,13 +1,16 @@
 <div>
 	<div id="current-time-container">
 		<h2>Current Time</h2>
-		<span>{{currentTime | async | date: "hh:mm:ss a"}}</span>
+		<p>{{currentDate | date: "yyyy MMM dd"}}</p>
+		<p>{{currentTime$ | async | date: "h:mm:ss a z"}}</p>
 	</div>
-	<div id="clock-token-container">
-		<div id="add-clock-token" class="clock-token">
-			<div class="clock-token-time"></div>
-			<span class="clock-token-name"></span>
-			<span class="clock-token-utc"></span>
+	<div id="clock-tokens">
+		<div id="add-clock-token" class="clock-token-container">
+			<div class="clock-token">
+				<img src="assets/svg/face.svg">
+				<div class="clock-token-text">+</div>
+			</div>
+			<span class="clock-token-name">Add New</span>
 		</div>
 
 		<app-clock-token *ngFor="let clock of clocks" [data]="clock"></app-clock-token>

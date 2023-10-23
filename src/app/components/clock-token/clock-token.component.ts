@@ -1,5 +1,7 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { ClockToken } from '../../interface/clock-token';
+import { TimeService } from 'src/app/service/time.service';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-clock-token',
@@ -9,6 +11,11 @@ import { ClockToken } from '../../interface/clock-token';
 })
 export class ClockTokenComponent {
   @Input() data: ClockToken = { location: '', utc: 0 };
+  currentTime$;
 
-  
+  constructor(timeService: TimeService) {
+    this.currentTime$ = timeService.currentByMin$.pipe(map((d) => {
+      d
+    }))
+  }
 }
