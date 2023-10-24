@@ -17,6 +17,7 @@ import { ClockTokenComponent } from './components/clock-token/clock-token.compon
 import { MeetingCalculatorComponent } from './components/meeting-calculator/meeting-calculator.component';
 import { PlanMeetingComponent } from './components/plan-meeting/plan-meeting.component';
 import { SelectedClocksComponent } from './components/selected-clocks/selected-clocks.component';
+import { CamelToNormPipe } from './pipe/camel-normal.pipe';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { SelectedClocksComponent } from './components/selected-clocks/selected-c
     ClockTokenComponent,
     AddClockTokenComponent,
     MeetingCalculatorComponent,
+    CamelToNormPipe,
   ],
   imports: [
     BrowserModule,

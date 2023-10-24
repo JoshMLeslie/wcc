@@ -3,8 +3,7 @@
 	<mat-form-field>
 		<mat-label>Time Zone</mat-label>
 		<mat-select [(ngModel)]="selectedZone">
-			<mat-option *ngFor="let option of timeZone | keyvalue" [value]="option.value">{{option.value.replace("_", "
-				")}}</mat-option>
+			<mat-option *ngFor="let option of timeZone | keyvalue" [value]="option.value">{{option.value | camelNormal}}</mat-option>
 		</mat-select>
 	</mat-form-field>
 </div>

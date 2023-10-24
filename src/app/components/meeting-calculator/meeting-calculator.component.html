@@ -2,20 +2,14 @@
 	<div class="banner">
 		<h2>Plan a Meeting</h2>
 	</div>
-	<h3>Starting Location</h3>
+	<h3>Starting Location, Time, and Date</h3>
 	<div class="starting-location-container">
-		<div id="time-output">
-
-			{{utc}}
-	
-			{{mainTime}}
-		</div>
 		<form id="starting-location-form" [formGroup]="startTimeForm">
 			<mat-form-field>
 				<mat-label>Time Zone</mat-label>
 				<mat-select formControlName="selectedZone">
 					<mat-option *ngFor="let option of timeZone | keyvalue" [value]="option.value">
-						{{option.value.replace("_", " ")}}
+						{{option.value | camelNormal}}
 					</mat-option>
 				</mat-select>
 			</mat-form-field>
@@ -31,6 +25,9 @@
 			</mat-form-field>
 
 		</form>
+		<div id="time-output">
+			{{utc}} {{mainTime}}
+		</div>
 	</div>
 	<div class="participant-locations-container">
 		<h3>Participant Locations</h3>
@@ -42,7 +39,7 @@
 				<mat-label>Time Zone</mat-label>
 				<mat-select [formControl]="addLocationForm">
 					<mat-option *ngFor="let option of timeZone | keyvalue" [value]="option.value">
-						{{option.value.replace("_", " ")}}
+						{{option.value | camelNormal}}
 					</mat-option>
 				</mat-select>
 			</mat-form-field>
