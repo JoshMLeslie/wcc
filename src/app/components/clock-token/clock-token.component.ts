@@ -1,17 +1,16 @@
 import {
-  AfterViewInit,
   Component,
   ElementRef,
   Input,
   OnDestroy,
   ViewChild,
-  ViewEncapsulation,
+  ViewEncapsulation
 } from '@angular/core';
+import { DateTime } from 'luxon';
+import { take, timer } from 'rxjs';
 import { ClockToken } from '../../interface/clock-token';
-import { TimeService } from '../../service/time.service';
-import { map, startWith, take, tap, timer } from 'rxjs';
-import { DateTime, Zone } from 'luxon';
 import { TimeZone } from '../../interface/time-zone';
+import { TimeService } from '../../service/time.service';
 
 const minToDeg = (min: number): number => 360 * (min / 60) - 180; // 180 is 0:00;
 // hr is 24hr based
@@ -30,13 +29,13 @@ const IANA_TEST = TimeZone['AMERICA/LOS_ANGELES'];
   encapsulation: ViewEncapsulation.None,
 })
 export class ClockTokenComponent implements OnDestroy {
-  @Input() data: ClockToken = { location: TimeZone['AMERICA/ANCHORAGE'] };
+  @Input() data: ClockToken = { zone: TimeZone['AMERICA/ANCHORAGE'] };
   @ViewChild('hourHand') hourHand!: ElementRef<HTMLDivElement>;
   @ViewChild('minuteHand') minuteHand!: ElementRef<HTMLDivElement>;
   currentTime$;
 
   set time(d: DateTime) {
-    d.setZone(this.data?.location);
+    d.setZone(this.data?.zone);
     const { minute, hour } = d;
     const hrTransform = hrToCSSTransform(hour);
     this.hourHand.nativeElement.style.transform = hrTransform;
@@ -47,7 +46,7 @@ export class ClockTokenComponent implements OnDestroy {
 
   constructor(timeService: TimeService) {
     const d = DateTime.now();
-    d.setZone(this.data?.location);
+    d.setZone(this.data?.zone);
     const offset = d.offset / 60;
     this.utc = `UTC${offset > 0 ? '+' : ''}${offset}`;
 

@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { map, timer } from 'rxjs';
 import { ClockToken } from '../../interface/clock-token';
 import { TimeService } from 'src/app/service/time.service';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { AddClockTokenComponent } from '../add-clock-token/add-clock-token.component';
 import { TimeZone } from 'src/app/interface/time-zone';
 
 @Component({
@@ -15,39 +16,26 @@ export class SelectedClocksComponent implements OnInit {
   currentDate;
   currentTime$;
 
-  constructor(timeService: TimeService) {
+  constructor(public matDialog: MatDialog, timeService: TimeService) {
     this.currentDate = timeService.currentDate;
     this.currentTime$ = timeService.currentSecondsString$;
   }
 
   ngOnInit(): void {
     this.clocks = JSON.parse(localStorage.getItem('clock-tokens') || '[]');
-    // TEST
     this.clocks.push({
-      location: TimeZone['AUSTRALIA/BRISBANE'],
+      zone: Intl.DateTimeFormat().resolvedOptions().timeZone as TimeZone,
     });
-    this.clocks.push({
-      location: TimeZone['AUSTRALIA/BRISBANE'],
-    });
-    this.clocks.push({
-      location: TimeZone['AUSTRALIA/BRISBANE'],
-    });
-    this.clocks.push({
-      location: TimeZone['AUSTRALIA/BRISBANE'],
-    });
-    this.clocks.push({
-      location: TimeZone['AUSTRALIA/BRISBANE'],
-    });
-    this.clocks.push({
-      location: TimeZone['AUSTRALIA/BRISBANE'],
-    });
-    this.clocks.push({
-      location: TimeZone['AUSTRALIA/BRISBANE'],
-    });
-    // TEST
   }
 
   addClockToken() {
-    // popup
+    const ref = this.matDialog.open(AddClockTokenComponent);
+
+    ref.afterClosed().subscribe((res: undefined | ClockToken) => {
+      console.log(res);
+      if (res) {
+        this.clocks.push(res);
+      }
+    });
   }
 }
