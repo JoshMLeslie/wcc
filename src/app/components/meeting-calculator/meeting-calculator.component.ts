@@ -6,15 +6,33 @@ import {
   FormGroup,
 } from '@angular/forms';
 import { DateTime } from 'luxon';
-import { pairwise } from 'rxjs';
+import { pairwise, startWith } from 'rxjs';
 import { Location } from 'src/app/interface/location';
 import { TimeZone } from 'src/app/interface/time-zone';
 import { TimeService } from 'src/app/service/time.service';
 
 interface MeetingForm {
   selectedZone: TimeZone;
-  selectedDateTime: DateTime;
+  selectedDate: DateTime;
+  selectedTime: DateTime;
 }
+
+const updateDateTime = (old: DateTime, update: Partial<DateTime>): DateTime => {
+  return DateTime.fromObject(
+    {
+      hour: update?.hour || old.hour,
+      minute: update?.minute || old.minute,
+      second: update?.second || old.second,
+      millisecond: update?.millisecond || old.millisecond,
+      day: update?.day || old.day,
+      month: update?.month || old.month,
+      year: update?.year || old.year,
+    },
+    {
+      zone: update?.zone || old.zone,
+    }
+  );
+};
 
 @Component({
   selector: 'app-meeting-calculator',
@@ -26,7 +44,8 @@ export class MeetingCalculatorComponent {
   utc = this.timeService.formatUTCOffset({ zone: this.timeService.localZone });
   startTimeForm = new FormGroup({
     selectedZone: new FormControl(this.timeService.localZone),
-    selectedDateTime: new FormControl(DateTime.now()),
+    selectedDate: new FormControl(DateTime.now()),
+    selectedTime: new FormControl(DateTime.now()),
   });
   addLocationForm = new FormControl();
   locations: DateTime[] = [];
@@ -34,32 +53,60 @@ export class MeetingCalculatorComponent {
   get mainTime(): string {
     return (
       this.startTimeForm
-        .get('selectedDateTime')
+        .get('selectedTime')
         ?.value?.toLocaleString(DateTime.DATETIME_SHORT) || ''
+    );
+  }
+
+  get formattedTime(): string {
+    return (
+      this.startTimeForm
+        .get('selectedTime')
+        ?.value?.toLocaleString(DateTime.TIME_24_SIMPLE) || ''
     );
   }
 
   constructor(public timeService: TimeService) {
     this.startTimeForm.valueChanges
-      .pipe(pairwise())
+      .pipe(startWith({}), pairwise())
       .subscribe(([previous, latest]) => {
-        const { selectedZone: prevZone } = previous as Required<MeetingForm>;
-        const { selectedZone: zone, selectedDateTime } =
-          latest as Required<MeetingForm>;
+        // nb. time update is handled in updateTime since due to formatting constraints
+        const {
+          selectedZone: prevZone,
+          selectedDate: prevDate,
+        } = previous as Required<MeetingForm>;
+        const {
+          selectedZone: zone,
+          selectedTime: time,
+          selectedDate: date,
+        } = latest as Required<MeetingForm>;
 
         if (prevZone !== zone) {
           this.startTimeForm.patchValue({
-            selectedDateTime: selectedDateTime.setZone(zone),
+            selectedTime: time.setZone(zone),
+            selectedDate: date.setZone(zone)
           });
           this.utc = this.timeService.formatUTCOffset({ zone });
         }
       });
   }
 
-  addClocks() {
+  // input based on `get formattedTime()`
+  updateTime(event: any) {
+    const [hour, minute] = event.target.value.split(':');
 
+    const selectedTime =
+      this.startTimeForm.get('selectedTime')?.value || DateTime.now();
+    const newTime = selectedTime.set({
+      hour: +hour,
+      minute: +minute,
+    });
+
+    this.startTimeForm.patchValue({ selectedTime: newTime });
   }
-  
+
+  addClocks() {}
+
   addLocation() {
     const newLoc = DateTime.local({ zone: this.addLocationForm.value });
     this.locations.push(newLoc);
@@ -70,6 +117,6 @@ export class MeetingCalculatorComponent {
   }
 
   formatLocationTime(location: DateTime): string {
-    return location.toLocaleString(DateTime.DATETIME_SHORT)
+    return location.toLocaleString(DateTime.DATETIME_SHORT);
   }
 }
