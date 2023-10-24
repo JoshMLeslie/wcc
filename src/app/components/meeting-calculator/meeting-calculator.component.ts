@@ -88,6 +88,17 @@ export class MeetingCalculatorComponent {
           });
           this.utc = this.timeService.formatUTCOffset({ zone });
         }
+
+        if (+prevDate !== +date) {
+          const newTime = time.set({
+            day: date.day,
+            month: date.month,
+            year: date.year
+          });
+          this.startTimeForm.patchValue({
+            selectedTime: newTime
+          })
+        }
       });
   }
 
