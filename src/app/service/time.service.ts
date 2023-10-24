@@ -1,16 +1,10 @@
 import { Injectable } from '@angular/core';
 import { DateTime } from 'luxon';
 import {
-  asapScheduler,
-  combineLatest,
-  interval,
   map,
-  merge,
-  mergeMap,
-  startWith,
-  take,
-  timer,
+  timer
 } from 'rxjs';
+import { TimeZone } from '../interface/time-zone';
 
 @Injectable({
   providedIn: 'root',
@@ -25,4 +19,14 @@ export class TimeService {
   );
 
   currentDate = DateTime.now().toISODate();
+  localZone = Intl.DateTimeFormat().resolvedOptions().timeZone as TimeZone;
+
+  formatUTCOffset({ offset, zone }: { offset?: number; zone?: TimeZone }): string {
+    if (zone && !offset) {
+      const d = DateTime.now().setZone(zone);
+      offset = d.offset / 60;
+    }
+    const joiner = offset as number >= 0 ? '+' : '';
+    return `UTC${joiner}${offset}`;
+  }
 }

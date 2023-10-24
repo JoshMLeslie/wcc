@@ -17,7 +17,7 @@ export class SelectedClocksComponent implements OnInit {
   currentDate;
   currentTime$;
 
-  constructor(public matDialog: MatDialog, timeService: TimeService) {
+  constructor(public matDialog: MatDialog, public timeService: TimeService) {
     this.currentDate = timeService.currentDate;
     this.currentTime$ = timeService.currentSecondsString$;
   }
@@ -32,7 +32,7 @@ export class SelectedClocksComponent implements OnInit {
   
     if (!this.clocks.length) {
       this.clocks.push({
-        zone: Intl.DateTimeFormat().resolvedOptions().timeZone as TimeZone,
+        zone: this.timeService.localZone
       });
     }
   }

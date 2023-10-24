@@ -43,7 +43,7 @@ export class ClockTokenComponent implements OnInit, OnDestroy {
   location?: string[];
   utc: string = '';
 
-  constructor(timeService: TimeService) {
+  constructor(public timeService: TimeService) {
     this.currentTime$ = timeService.currentByMin$.subscribe((d) =>
       this.setTime(d)
     );
@@ -58,9 +58,7 @@ export class ClockTokenComponent implements OnInit, OnDestroy {
 
     this.location = zone.replace('_', ' ').split('/');
 
-    const d = DateTime.now().setZone(zone);
-    const offset = d.offset / 60;
-    this.utc = `UTC${offset >= 0 ? '+' : ''}${offset}`;
+    this.utc = this.timeService.formatUTCOffset({ zone });
 
     setTimeout(() => {
       const { minute, hour } = DateTime.now().setZone(this.data?.zone);
