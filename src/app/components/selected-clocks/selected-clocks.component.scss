@@ -2,17 +2,22 @@
   text-align: center;
 }
 
-#clock-tokens {
+#clock-tokens, .clock-token-list {
   display: flex;
 	align-items: flex-start;
   width: 100%;
+}
+
+.clock-token-list {
   padding: 1rem;
-  gap: 1rem;
+  padding-left: 0;
+  gap: 0.5rem;
   overflow-x: auto;
 }
 
 #add-clock-token {
   cursor: pointer;
+  padding: 1rem;
 
 	.clock-token-time {
 		display: none;

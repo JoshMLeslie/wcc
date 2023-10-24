@@ -4,6 +4,7 @@ import { TimeZone } from 'src/app/interface/time-zone';
 import { TimeService } from 'src/app/service/time.service';
 import { ClockToken } from '../../interface/clock-token';
 import { AddClockTokenComponent } from '../add-clock-token/add-clock-token.component';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-selected-clocks',
@@ -45,5 +46,9 @@ export class SelectedClocksComponent implements OnInit {
         localStorage.setItem('clock-tokens', JSON.stringify(this.clocks))
       }
     });
+  }
+
+  dragDrop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.clocks, event.previousIndex, event.currentIndex);
   }
 }
