@@ -4,6 +4,11 @@
   flex-direction: column;	
   align-items: center;
   justify-content: center;
+
+  transition: opacity 200ms ease-in-out;
+  &:hover {
+    opacity: 0.5; 
+  }
 }
 
 .clock-token {
@@ -14,8 +19,11 @@
   margin-bottom: 4px;
   cursor: pointer;
 
+  &.can-delete {
+    transition: background-color 200ms ease-in-out;
+  }
   &.can-delete:hover {
-    background-color: rgba(255,0,0, 0.5);
+    background-color: red;
   }
 }
 

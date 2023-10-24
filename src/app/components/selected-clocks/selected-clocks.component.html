@@ -1,6 +1,8 @@
 <div>
 	<div id="current-time-container">
-		<h2>Current Time</h2>
+		<div class="banner">
+			<h2>Current Time</h2>
+		</div>
 		<p>{{currentDate | date: "yyyy MMM dd"}}</p>
 		<p>{{currentTime$ | async | date:"h:mm:ss a 'UTC'Z"}}</p>
 	</div>

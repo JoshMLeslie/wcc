@@ -47,6 +47,7 @@ export class SelectedClocksComponent implements OnInit {
       }
     });
   }
+  
   deleteToken(index: number) {
     this.clocks.splice(index, 1);
     this.updateStorage();
