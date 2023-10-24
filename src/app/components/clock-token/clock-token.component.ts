@@ -44,6 +44,7 @@ export class ClockTokenComponent implements OnInit, OnDestroy {
     this.minuteHand.nativeElement.style.transform = minToCSSTransform(minute);
   }
 
+  location: string[] | undefined;
   utc: string = '';
 
   constructor(timeService: TimeService) {
@@ -66,16 +67,18 @@ export class ClockTokenComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    let d = DateTime.now();
-    d = d.setZone(this.data?.zone);
-    const offset = d.offset / 60;
-    let offsetSpacer = ' ';
-    if (offset > 0) {
-      offsetSpacer = '+';
-    } else if (offset < 0) {
-      offsetSpacer = '';
+    if (!this.data?.zone) {
+      return;
     }
-    this.utc = `UTC${offsetSpacer}${offset}`;
+
+    const {zone} = this.data;
+
+    this.location = zone.replace("_", " ").split("/");
+    
+    let d = DateTime.now();
+    d = d.setZone(zone);
+    const offset = d.offset / 60;
+    this.utc = `UTC${offset >= 0 ? "+" : ""}${offset}`;
   }
 
   ngOnDestroy(): void {
