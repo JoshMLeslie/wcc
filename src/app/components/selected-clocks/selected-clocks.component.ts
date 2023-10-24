@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { ClockToken } from '../../interface/clock-token';
-import { TimeService } from 'src/app/service/time.service';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { AddClockTokenComponent } from '../add-clock-token/add-clock-token.component';
+import { MatDialog } from '@angular/material/dialog';
 import { TimeZone } from 'src/app/interface/time-zone';
+import { TimeService } from 'src/app/service/time.service';
+import { ClockToken } from '../../interface/clock-token';
+import { AddClockTokenComponent } from '../add-clock-token/add-clock-token.component';
 
 @Component({
   selector: 'app-selected-clocks',
@@ -22,7 +22,13 @@ export class SelectedClocksComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.clocks = JSON.parse(localStorage.getItem('clock-tokens') || '[]');
+    try {
+      const clocks = localStorage.getItem('clock-tokens');
+      if (clocks) {
+        this.clocks = JSON.parse(clocks);
+      }
+    } catch {}
+  
     this.clocks.push({
       zone: Intl.DateTimeFormat().resolvedOptions().timeZone as TimeZone,
     });
@@ -32,7 +38,6 @@ export class SelectedClocksComponent implements OnInit {
     const ref = this.matDialog.open(AddClockTokenComponent);
 
     ref.afterClosed().subscribe((res: undefined | ClockToken) => {
-      console.log(res);
       if (res) {
         this.clocks.push(res);
       }
