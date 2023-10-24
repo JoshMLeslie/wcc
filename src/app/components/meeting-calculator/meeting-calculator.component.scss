@@ -1,8 +1,15 @@
 .meeting-container {
 }
 .starting-location-container,
-.participant-locations-form {
+#starting-location-form,
+#participant-locations-form {
   display: flex;
+}
+.starting-location-container {
+	flex-direction: column;
+	.time-output {
+		display: flex;
+	}
 }
 .meeting-locations-container {
 }

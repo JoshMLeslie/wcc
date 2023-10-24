@@ -4,6 +4,12 @@
 	</div>
 	<h3>Starting Location</h3>
 	<div class="starting-location-container">
+		<div id="time-output">
+
+			{{utc}}
+	
+			{{mainTime}}
+		</div>
 		<form id="starting-location-form" [formGroup]="startTimeForm">
 			<mat-form-field>
 				<mat-label>Time Zone</mat-label>
@@ -14,17 +20,12 @@
 				</mat-select>
 			</mat-form-field>
 
-			{{utc}}
-
-			{{mainTime}}
-
 			<mat-form-field>
 				<input matInput type="time" (change)="updateTime($event)" [value]="formattedTime">
 			</mat-form-field>
 
 			<mat-form-field>
 				<input matInput [matDatepicker]="picker" formControlName="selectedDate">
-				<mat-hint>MM/DD/YYYY</mat-hint>
 				<mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
 				<mat-datepicker #picker></mat-datepicker>
 			</mat-form-field>
