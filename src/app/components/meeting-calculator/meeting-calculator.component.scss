@@ -5,15 +5,22 @@
 #participant-locations-form {
   display: flex;
 }
+
 .starting-location-container {
 	flex-direction: column;
 	.time-output {
 		display: flex;
 	}
 }
-.meeting-locations-container {
+#starting-location-form {
+	gap: 0 0.5rem;
 }
 
+.participant-locations-container {
+	margin-top: 1rem;
+}
+
+// fixes missing time input icon due to MUI styles
 .mat-mdc-input-element::-webkit-calendar-picker-indicator {
   display: block;
 }
