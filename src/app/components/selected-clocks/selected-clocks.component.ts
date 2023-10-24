@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TimeZone } from 'src/app/interface/time-zone';
 import { TimeService } from 'src/app/service/time.service';
-import { ClockToken } from '../../interface/clock-token';
+import { Location } from '../../interface/location';
 import { AddClockTokenComponent } from '../add-clock-token/add-clock-token.component';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
@@ -13,7 +13,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SelectedClocksComponent implements OnInit {
-  clocks: ClockToken[] = [];
+  clocks: Location[] = [];
   currentDate;
   currentTime$;
 
@@ -40,7 +40,7 @@ export class SelectedClocksComponent implements OnInit {
   addClockToken() {
     const ref = this.matDialog.open(AddClockTokenComponent);
 
-    ref.afterClosed().subscribe((res: undefined | ClockToken) => {
+    ref.afterClosed().subscribe((res: undefined | Location) => {
       if (res) {
         this.clocks.push(res);
         this.updateStorage();

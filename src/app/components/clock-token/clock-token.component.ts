@@ -10,7 +10,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { DateTime } from 'luxon';
-import { ClockToken } from '../../interface/clock-token';
+import { Location } from '../../interface/location';
 import { TimeService } from '../../service/time.service';
 
 const minToDeg = (min: number): number => {
@@ -32,7 +32,7 @@ const hrToCSSTransform = (hr: number): string =>
   encapsulation: ViewEncapsulation.None,
 })
 export class ClockTokenComponent implements OnInit, OnDestroy {
-  @Input() data?: ClockToken;
+  @Input() data?: Location;
   @ViewChild('hourHand', { static: true })
   hourHand!: ElementRef<HTMLDivElement>;
   @ViewChild('minuteHand', { static: true })

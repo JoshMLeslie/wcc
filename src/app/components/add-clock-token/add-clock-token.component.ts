@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { ClockToken } from 'src/app/interface/clock-token';
+import { Location } from 'src/app/interface/location';
 import { TimeZone } from 'src/app/interface/time-zone';
 
 @Component({
@@ -14,12 +14,12 @@ export class AddClockTokenComponent {
 
   constructor(
     public matDialogRef: MatDialogRef<AddClockTokenComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: ClockToken
+    @Inject(MAT_DIALOG_DATA) public data: Location
   ) {}
 
   submit() {
     this.matDialogRef.close({
       zone: this.selectedZone
-    } as ClockToken);
+    } as Location);
   }
 }
