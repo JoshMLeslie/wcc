@@ -12,6 +12,11 @@
   align-items: center;
   justify-content: center;
   margin-bottom: 4px;
+  cursor: pointer;
+
+  &.can-delete:hover {
+    background-color: rgba(255,0,0, 0.5);
+  }
 }
 
 .clock-token-time {

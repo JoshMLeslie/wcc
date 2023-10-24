@@ -14,7 +14,7 @@
 		</div>
 		<div class="clock-token-list" cdkDropList cdkDropListOrientation="horizontal"
 			(cdkDropListDropped)="dragDrop($event)">
-			<app-clock-token cdkDrag *ngFor="let clock of clocks" [data]="clock">
+			<app-clock-token cdkDrag *ngFor="let clock of clocks; index as i" [data]="clock" (delete)="deleteToken(i)">
 				<div class="clock-token-placeholder" *cdkDragPlaceholder></div>
 			</app-clock-token>
 		</div>

@@ -1,9 +1,11 @@
 import {
   Component,
   ElementRef,
+  EventEmitter,
   Input,
   OnDestroy,
   OnInit,
+  Output,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
@@ -35,6 +37,7 @@ export class ClockTokenComponent implements OnInit, OnDestroy {
   hourHand!: ElementRef<HTMLDivElement>;
   @ViewChild('minuteHand', { static: true })
   minuteHand!: ElementRef<HTMLDivElement>;
+  @Output() delete = new EventEmitter<void>();
 
   currentTime$;
   location?: string[];
@@ -73,6 +76,10 @@ export class ClockTokenComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.currentTime$.unsubscribe();
+  }
+
+  emitDelete(): void {
+    this.delete.next();
   }
 
   private setTime(d: DateTime) {
