@@ -41,7 +41,9 @@ export class ClockTokenComponent implements OnInit, OnDestroy {
   utc: string = '';
 
   constructor(timeService: TimeService) {
-    this.currentTime$ = timeService.currentByMin$.subscribe(this.setTime);
+    this.currentTime$ = timeService.currentByMin$.subscribe((d) =>
+      this.setTime(d)
+    );
   }
 
   ngOnInit(): void {
@@ -62,7 +64,7 @@ export class ClockTokenComponent implements OnInit, OnDestroy {
       this.hourHand.nativeElement.style.transform = hrToCSSTransform(hour);
       this.minuteHand.nativeElement.style.transform = minToCSSTransform(minute);
     }, 1000);
-    
+
     setTimeout(() => {
       this.hourHand.nativeElement.style.transition =
         'transform 100ms ease-in-out';
