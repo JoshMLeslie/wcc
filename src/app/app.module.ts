@@ -13,6 +13,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MeetingCalculatorComponent } from './components/meeting-calculator/meeting-calculator.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     PlanMeetingComponent,
     ClockTokenComponent,
     AddClockTokenComponent,
+    MeetingCalculatorComponent,
   ],
   imports: [
     BrowserModule,
