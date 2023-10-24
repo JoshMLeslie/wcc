@@ -43,12 +43,17 @@ export class SelectedClocksComponent implements OnInit {
     ref.afterClosed().subscribe((res: undefined | ClockToken) => {
       if (res) {
         this.clocks.push(res);
-        localStorage.setItem('clock-tokens', JSON.stringify(this.clocks))
+        this.updateStorage();
       }
     });
   }
 
   dragDrop(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.clocks, event.previousIndex, event.currentIndex);
+    this.updateStorage();
+  }
+
+  private updateStorage() {
+    localStorage.setItem('clock-tokens', JSON.stringify(this.clocks))
   }
 }

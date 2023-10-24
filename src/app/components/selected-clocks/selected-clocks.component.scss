@@ -27,3 +27,18 @@
     font-size: 3rem;
   }
 }
+
+
+/* Animate an item that has been dropped. */
+.cdk-drop-list-dragging .cdk-drag, .cdk-drag-animating {
+  transition: transform 300ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.clock-token-placeholder {
+  background: #ccc;
+  border: dotted 3px #999;
+  border-radius: 50%;
+  height: 4rem;
+  width: 4rem;
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
