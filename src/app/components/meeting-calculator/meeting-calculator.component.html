@@ -1,6 +1,27 @@
-<div class="meeting-banner"></div>
 <div class="meeting-container">
-	<h2>Plan a Meeting</h2>
-	<div class="meeting-start-container"></div>
-	<div class="meeting-locations-container"></div>
+	<div class="banner">
+		<h2>Plan a Meeting</h2>
+	</div>
+	<h3>Starting Location</h3>
+	<div class="meeting-start-container">
+		<form id="starting-location-form" [formGroup]="form">
+			<mat-form-field>
+				<mat-label>Time Zone</mat-label>
+				<mat-select formControlName="selectedZone">
+					<mat-option *ngFor="let option of timeZone | keyvalue" [value]="option.value">
+						{{option.value.replace("_", " ")}}
+					</mat-option>
+				</mat-select>
+			</mat-form-field>
+
+			{{utc}}
+
+			{{time}}
+
+		</form>
+	</div>
+	<div class="meeting-locations-container">
+		<h3>Participant Locations</h3>
+		<button mat-raised-button>Add Location</button>
+	</div>
 </div>
