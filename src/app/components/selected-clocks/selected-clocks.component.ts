@@ -29,9 +29,11 @@ export class SelectedClocksComponent implements OnInit {
       }
     } catch {}
   
-    this.clocks.push({
-      zone: Intl.DateTimeFormat().resolvedOptions().timeZone as TimeZone,
-    });
+    if (!this.clocks.length) {
+      this.clocks.push({
+        zone: Intl.DateTimeFormat().resolvedOptions().timeZone as TimeZone,
+      });
+    }
   }
 
   addClockToken() {
@@ -40,6 +42,7 @@ export class SelectedClocksComponent implements OnInit {
     ref.afterClosed().subscribe((res: undefined | ClockToken) => {
       if (res) {
         this.clocks.push(res);
+        localStorage.setItem('clock-tokens', JSON.stringify(this.clocks))
       }
     });
   }

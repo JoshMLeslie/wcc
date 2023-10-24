@@ -69,7 +69,13 @@ export class ClockTokenComponent implements OnInit, OnDestroy {
     let d = DateTime.now();
     d = d.setZone(this.data?.zone);
     const offset = d.offset / 60;
-    this.utc = `UTC${offset > 0 ? '+' : ''}${offset}`;
+    let offsetSpacer = ' ';
+    if (offset > 0) {
+      offsetSpacer = '+';
+    } else if (offset < 0) {
+      offsetSpacer = '';
+    }
+    this.utc = `UTC${offsetSpacer}${offset}`;
   }
 
   ngOnDestroy(): void {
