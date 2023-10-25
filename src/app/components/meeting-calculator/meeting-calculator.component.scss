@@ -1,23 +1,34 @@
-.meeting-container {
-}
 .starting-location-container,
 #starting-location-form,
+#participant-locations-header,
 #participant-locations-form {
   display: flex;
 }
 
+#participant-locations-header {
+  justify-content: space-between;
+  align-items: center;
+	border-bottom: 2px solid gray;
+	margin-bottom: 0.5rem;
+	padding-bottom: 0.5rem;
+}
+
+#participant-locations-form button {
+	margin-left: 1rem;
+}
+
 .starting-location-container {
-	flex-direction: column;
-	.time-output {
-		display: flex;
-	}
+  flex-direction: column;
+  .time-output {
+    display: flex;
+  }
 }
 #starting-location-form {
-	gap: 0 0.5rem;
+  gap: 0 0.5rem;
 }
 
 .participant-locations-container {
-	margin-top: 1rem;
+  margin-top: 1rem;
 }
 
 // fixes missing time input icon due to MUI styles

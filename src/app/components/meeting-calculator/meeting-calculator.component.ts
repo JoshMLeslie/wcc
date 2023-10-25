@@ -71,10 +71,8 @@ export class MeetingCalculatorComponent {
       .pipe(startWith({}), pairwise())
       .subscribe(([previous, latest]) => {
         // nb. time update is handled in updateTime since due to formatting constraints
-        const {
-          selectedZone: prevZone,
-          selectedDate: prevDate,
-        } = previous as Required<MeetingForm>;
+        const { selectedZone: prevZone, selectedDate: prevDate } =
+          previous as Required<MeetingForm>;
         const {
           selectedZone: zone,
           selectedTime: time,
@@ -84,7 +82,7 @@ export class MeetingCalculatorComponent {
         if (prevZone !== zone) {
           this.startTimeForm.patchValue({
             selectedTime: time.setZone(zone),
-            selectedDate: date.setZone(zone)
+            selectedDate: date.setZone(zone),
           });
           this.utc = this.timeService.formatUTCOffset({ zone });
         }
@@ -93,11 +91,15 @@ export class MeetingCalculatorComponent {
           const newTime = time.set({
             day: date.day,
             month: date.month,
-            year: date.year
+            year: date.year,
           });
           this.startTimeForm.patchValue({
-            selectedTime: newTime
-          })
+            selectedTime: newTime,
+          });
+
+          this.locations = this.locations.map((loc) => 
+           newTime.setZone(loc.zone)
+          );
         }
       });
   }
@@ -112,6 +114,10 @@ export class MeetingCalculatorComponent {
       hour: +hour,
       minute: +minute,
     });
+  
+    this.locations = this.locations.map((loc) => 
+      newTime.setZone(loc.zone)
+    );
 
     this.startTimeForm.patchValue({ selectedTime: newTime });
   }
@@ -119,8 +125,20 @@ export class MeetingCalculatorComponent {
   addClocks() {}
 
   addLocation() {
-    const newLoc = DateTime.local({ zone: this.addLocationForm.value });
-    this.locations.push(newLoc);
+    const zone = this.addLocationForm.value;
+    if (!zone) {
+      return;
+    }
+    this.locations.push(DateTime.local({ zone }));
+    // async scroll after update
+    setTimeout(
+      () =>
+        window.scrollTo({
+          behavior: 'smooth',
+          top: window.document.body.scrollHeight,
+        }),
+      100
+    );
   }
 
   removeLocation(index: number): void {
