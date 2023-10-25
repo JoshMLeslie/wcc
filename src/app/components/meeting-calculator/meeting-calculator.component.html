@@ -49,9 +49,8 @@
 			<button mat-raised-button (click)="addLocation()">Add Location</button>
 		</form>
 
-
-		<mat-list class="partcipant-location">
-			<mat-list-item *ngFor="let location of locations; index as i;">
+		<mat-list class="partcipant-location" cdkDropList (cdkDropListDropped)="dragDrop($event)">
+			<mat-list-item cdkDrag *ngFor="let location of locations; index as i;">
 				<span matListItemTitle>{{location.zoneName | camelNormal}}</span>
 				<span matListItemLine>{{formatLocationTime(location)}}</span>
 

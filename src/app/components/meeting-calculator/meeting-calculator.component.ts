@@ -5,6 +5,7 @@ import { pairwise, startWith, take } from 'rxjs';
 import { TimeZone } from '../../interface/time-zone';
 import { SelectedClocksService } from '../../service/selected-clocks.service';
 import { TimeService } from '../../service/time.service';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 const scrollToBottom = (): void => {
   setTimeout(
@@ -133,4 +134,9 @@ export class MeetingCalculatorComponent {
   formatLocationTime(location: DateTime): string {
     return location.toLocaleString(DateTime.DATETIME_SHORT);
   }
+
+  dragDrop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.locations, event.previousIndex, event.currentIndex);
+  }
+
 }
