@@ -29,7 +29,7 @@ export class SelectedClocksComponent implements OnInit {
   ngOnInit(): void {
     try {
       const clocks = localStorage.getItem('clock-tokens');
-      console.log(clocks)
+
       if (typeof clocks === 'string' && clocks !== '[]') {
         this.clocks.push(...JSON.parse(clocks));
       } else {
@@ -37,6 +37,8 @@ export class SelectedClocksComponent implements OnInit {
           zone: this.timeService.localZone,
         });
       }
+      
+      this.selectedClocksService.update(this.clocks);
     } catch {}
   }
 
