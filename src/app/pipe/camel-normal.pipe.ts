@@ -1,12 +1,13 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'camelNormal'
+  name: 'camelNormal',
 })
 export class CamelToNormPipe implements PipeTransform {
-
-  transform(value: string): string {
-    return value.replace(/_/g, " ");
+  transform(value: string | null | undefined): string {
+    if (!value) {
+      return '';
+    }
+    return value.replace(/_/g, ' ');
   }
-
 }

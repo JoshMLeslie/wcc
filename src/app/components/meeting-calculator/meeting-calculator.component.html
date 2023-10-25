@@ -32,7 +32,7 @@
 	<div class="participant-locations-container">
 		<div id="participant-locations-header">
 			<h3>Participant Locations</h3>
-	
+
 			<button mat-raised-button (click)="addClocks()">Add all from Clock List</button>
 		</div>
 
@@ -50,9 +50,15 @@
 		</form>
 
 
-		<div *ngFor="let location of locations; index as i;" (click)="removeLocation(i)">
-			{{location.zoneName}}
-			{{formatLocationTime(location)}}
-		</div>
+		<mat-list class="partcipant-location">
+			<mat-list-item *ngFor="let location of locations; index as i;">
+				<span matListItemTitle>{{location.zoneName | camelNormal}}</span>
+				<span matListItemLine>{{formatLocationTime(location)}}</span>
+
+				<span matListItemMeta class="delete-participant-location" (click)="removeLocation(i)">
+					<mat-icon fontIcon="delete"></mat-icon>
+				</span>
+			</mat-list-item>
+		</mat-list>
 	</div>
 </div>

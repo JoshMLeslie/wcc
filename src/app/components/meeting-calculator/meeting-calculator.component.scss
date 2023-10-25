@@ -31,6 +31,18 @@
   margin-top: 1rem;
 }
 
+.delete-participant-location mat-icon {
+  transition: color 200ms ease-in-out, background-color 200ms ease-in-out;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 4px;
+
+  &:hover {
+    color: black;
+    background-color: rgba(255,0,0,0.5);
+  }
+}
+
 // fixes missing time input icon due to MUI styles
 .mat-mdc-input-element::-webkit-calendar-picker-indicator {
   display: block;
