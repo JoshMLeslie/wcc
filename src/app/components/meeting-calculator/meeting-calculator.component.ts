@@ -64,7 +64,10 @@ export class MeetingCalculatorComponent {
     );
   }
 
-  constructor(public timeService: TimeService) {
+  constructor(
+    public selectedClocksService: SelectedClocksService,
+    public timeService: TimeService
+  ) {
     this.startTimeForm.valueChanges
       .pipe(startWith({}), pairwise())
       .subscribe(([previous, latest]) => {
@@ -95,8 +98,8 @@ export class MeetingCalculatorComponent {
             selectedTime: newTime,
           });
 
-          this.locations = this.locations.map((loc) => 
-           newTime.setZone(loc.zone)
+          this.locations = this.locations.map((loc) =>
+            newTime.setZone(loc.zone)
           );
         }
       });
@@ -112,15 +115,23 @@ export class MeetingCalculatorComponent {
       hour: +hour,
       minute: +minute,
     });
-  
-    this.locations = this.locations.map((loc) => 
-      newTime.setZone(loc.zone)
-    );
+
+    this.locations = this.locations.map((loc) => newTime.setZone(loc.zone));
 
     this.startTimeForm.patchValue({ selectedTime: newTime });
   }
 
-  addClocks() {}
+  addClocks() {
+    this.selectedClocksService.selectedClocks
+      .pipe(take(1))
+      .subscribe((clocks) => {
+        const selectedClocks = clocks.map(c => {
+          const newTime = this.startTimeForm.get('selectedTime')?.value || DateTime.now();
+          return newTime.setZone(c.zone)
+        })
+        this.locations.push(...selectedClocks);
+      });
+  }
 
   addLocation() {
     const zone = this.addLocationForm.value;
