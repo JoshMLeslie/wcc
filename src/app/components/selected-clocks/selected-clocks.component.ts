@@ -1,10 +1,10 @@
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { TimeZone } from 'src/app/interface/time-zone';
+import { SelectedClocksService } from 'src/app/service/selected-clocks.service';
 import { TimeService } from 'src/app/service/time.service';
 import { Location } from '../../interface/location';
 import { AddClockTokenComponent } from '../add-clock-token/add-clock-token.component';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-selected-clocks',
@@ -17,7 +17,11 @@ export class SelectedClocksComponent implements OnInit {
   currentDate;
   currentTime$;
 
-  constructor(public matDialog: MatDialog, public timeService: TimeService) {
+  constructor(
+    public matDialog: MatDialog,
+    public selectedClocksService: SelectedClocksService,
+    public timeService: TimeService
+  ) {
     this.currentDate = timeService.currentDate;
     this.currentTime$ = timeService.currentSecondsString$;
   }
@@ -25,16 +29,15 @@ export class SelectedClocksComponent implements OnInit {
   ngOnInit(): void {
     try {
       const clocks = localStorage.getItem('clock-tokens');
-      if (clocks) {
-        this.clocks = JSON.parse(clocks);
+      console.log(clocks)
+      if (typeof clocks === 'string' && clocks !== '[]') {
+        this.clocks.push(...JSON.parse(clocks));
+      } else {
+        this.clocks.push({
+          zone: this.timeService.localZone,
+        });
       }
     } catch {}
-  
-    if (!this.clocks.length) {
-      this.clocks.push({
-        zone: this.timeService.localZone
-      });
-    }
   }
 
   addClockToken() {
@@ -47,7 +50,7 @@ export class SelectedClocksComponent implements OnInit {
       }
     });
   }
-  
+
   deleteToken(index: number) {
     this.clocks.splice(index, 1);
     this.updateStorage();
@@ -58,8 +61,8 @@ export class SelectedClocksComponent implements OnInit {
     this.updateStorage();
   }
 
-
   private updateStorage() {
-    localStorage.setItem('clock-tokens', JSON.stringify(this.clocks))
+    this.selectedClocksService.update(this.clocks);
+    localStorage.setItem('clock-tokens', JSON.stringify(this.clocks));
   }
 }
