@@ -126,6 +126,7 @@ export class MeetingCalculatorComponent {
       return;
     }
     this.locations.push(this.selectedTime.setZone(zone));
+    this.addLocationForm.reset();
     scrollToBottom();
   }
 
@@ -147,5 +148,13 @@ export class MeetingCalculatorComponent {
 
   dragDrop(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.locations, event.previousIndex, event.currentIndex);
+  }
+
+  refresh(): void {
+    this.startTimeForm.reset({
+      selectedZone: this.timeService.localZone,
+      selectedDate: DateTime.now(),
+      selectedTime: DateTime.now(),
+    });
   }
 }

@@ -2,11 +2,19 @@
 	<div class="banner">
 		<h2>Plan a Meeting</h2>
 	</div>
-	<h3>Starting Location, Time, and Date</h3>
+	<div id="starting-location-header">
+		<h3>Starting Location, Time, and Date</h3>
+		<button mat-mini-fab color="primary" (click)="refresh()">
+			<mat-icon>refresh</mat-icon>
+		</button>
+	</div>
 	<div class="starting-location-container">
+		<div id="time-output">
+			{{utc}} {{shortTime}}
+		</div>
 		<form id="starting-location-form" [formGroup]="startTimeForm">
 
-			<ng-select autofocus formControlName="selectedZone" >
+			<ng-select formControlName="selectedZone" placeholder="Zone">
 				<ng-option *ngFor="let option of timeZone | keyvalue" [value]="option.value">
 					{{option.value | camelNormal}}
 				</ng-option>
@@ -23,26 +31,22 @@
 			</mat-form-field>
 
 		</form>
-		<div id="time-output">
-			{{utc}} {{shortTime}}
-		</div>
 	</div>
 	<div class="participant-locations-container">
 		<div id="participant-locations-header">
 			<h3>Participant Locations</h3>
+			<form id="participant-locations-form">
+				<ng-select [formControl]="addLocationForm" placeholder="Zone">
+					<ng-option *ngFor="let option of timeZone | keyvalue" [value]="option.value">
+						{{option.value | camelNormal}}
+					</ng-option>
+				</ng-select>
 
-			<button mat-raised-button (click)="addClocks()">Add all from Clock List</button>
+				<button mat-raised-button color="primary" (click)="addLocation()">Add Location</button>
+
+				<button mat-raised-button color="accent" (click)="addClocks()">Add all from above</button>
+			</form>
 		</div>
-
-		<form id="participant-locations-form">
-			<ng-select autofocus [formControl]="addLocationForm" [keyDownFn]="addLocationOnEnter">
-				<ng-option *ngFor="let option of timeZone | keyvalue" [value]="option.value">
-					{{option.value | camelNormal}}
-				</ng-option>
-			</ng-select>
-
-			<button mat-raised-button (click)="addLocation()">Add Location</button>
-		</form>
 
 		<mat-list class="partcipant-location" cdkDropList (cdkDropListDropped)="dragDrop($event)">
 			<mat-list-item cdkDrag *ngFor="let location of locations; index as i;">
