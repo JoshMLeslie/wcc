@@ -5,20 +5,18 @@
 	<h3>Starting Location, Time, and Date</h3>
 	<div class="starting-location-container">
 		<form id="starting-location-form" [formGroup]="startTimeForm">
-			<mat-form-field>
-				<mat-label>Time Zone</mat-label>
-				<mat-select formControlName="selectedZone">
-					<mat-option *ngFor="let option of timeZone | keyvalue" [value]="option.value">
-						{{option.value | camelNormal}}
-					</mat-option>
-				</mat-select>
+
+			<ng-select autofocus formControlName="selectedZone" >
+				<ng-option *ngFor="let option of timeZone | keyvalue" [value]="option.value">
+					{{option.value | camelNormal}}
+				</ng-option>
+			</ng-select>
+
+			<mat-form-field appearance="outline">
+				<input matInput type="time" (change)="updateTime($event)" [value]="milTime">
 			</mat-form-field>
 
-			<mat-form-field>
-				<input matInput type="time" (change)="updateTime($event)" [value]="formattedTime">
-			</mat-form-field>
-
-			<mat-form-field>
+			<mat-form-field appearance="outline">
 				<input matInput [matDatepicker]="picker" formControlName="selectedDate">
 				<mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
 				<mat-datepicker #picker></mat-datepicker>
@@ -26,7 +24,7 @@
 
 		</form>
 		<div id="time-output">
-			{{utc}} {{mainTime}}
+			{{utc}} {{shortTime}}
 		</div>
 	</div>
 	<div class="participant-locations-container">
@@ -37,14 +35,11 @@
 		</div>
 
 		<form id="participant-locations-form">
-			<mat-form-field>
-				<mat-label>Time Zone</mat-label>
-				<mat-select [formControl]="addLocationForm">
-					<mat-option *ngFor="let option of timeZone | keyvalue" [value]="option.value">
-						{{option.value | camelNormal}}
-					</mat-option>
-				</mat-select>
-			</mat-form-field>
+			<ng-select autofocus [formControl]="addLocationForm" [keyDownFn]="addLocationOnEnter">
+				<ng-option *ngFor="let option of timeZone | keyvalue" [value]="option.value">
+					{{option.value | camelNormal}}
+				</ng-option>
+			</ng-select>
 
 			<button mat-raised-button (click)="addLocation()">Add Location</button>
 		</form>

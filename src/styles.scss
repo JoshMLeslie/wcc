@@ -1,4 +1,4 @@
-@import "~@ng-select/ng-select/themes/default.theme.css";
+@import "~@ng-select/ng-select/themes/material.theme.css";
 
 html,
 body {
@@ -27,6 +27,7 @@ h3 {
 }
 
 .fix-mat-dialog-ng-select {
+  width: 400px;
   .mat-mdc-dialog-content,
   .mat-mdc-dialog-surface {
     overflow: visible;

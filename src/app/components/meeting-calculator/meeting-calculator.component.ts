@@ -43,11 +43,10 @@ export class MeetingCalculatorComponent {
   get selectedTime(): DateTime {
     return this.startTimeForm.get('selectedTime')?.value || DateTime.now();
   }
-  get mainTime(): string {
+  get shortTime(): string {
     return this.selectedTime.toLocaleString(DateTime.DATETIME_SHORT) || '';
   }
-
-  get formattedTime(): string {
+  get milTime(): string {
     return this.selectedTime.toLocaleString(DateTime.TIME_24_SIMPLE) || '';
   }
 
@@ -58,16 +57,19 @@ export class MeetingCalculatorComponent {
     this.startTimeForm.valueChanges
       .pipe(startWith({}), pairwise())
       .subscribe(([previous, latest]) => {
-        // nb. time update is handled in updateTime since due to formatting constraints
+        // nb. time update is handled in updateTime due to formatting constraints
         const { selectedZone: prevZone, selectedDate: prevDate } =
           previous as Required<MeetingForm>;
-        const {
+        let {
           selectedZone: zone,
           selectedTime: time,
           selectedDate: date,
         } = latest as Required<MeetingForm>;
 
         if (prevZone !== zone) {
+          if (!zone) {
+            zone = DateTime.now().zoneName as TimeZone;
+          }
           this.startTimeForm.patchValue({
             selectedTime: time.setZone(zone),
             selectedDate: date.setZone(zone),
@@ -127,6 +129,14 @@ export class MeetingCalculatorComponent {
     scrollToBottom();
   }
 
+  addLocationOnEnter(event: KeyboardEvent): boolean {
+    if (event.key === 'Enter') {
+      this.addLocation();
+      return false;
+    }
+    return true;
+  }
+
   removeLocation(index: number): void {
     this.locations.splice(index, 1);
   }
@@ -138,5 +148,4 @@ export class MeetingCalculatorComponent {
   dragDrop(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.locations, event.previousIndex, event.currentIndex);
   }
-
 }

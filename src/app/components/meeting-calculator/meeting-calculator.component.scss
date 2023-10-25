@@ -13,6 +13,9 @@
 	padding-bottom: 0.5rem;
 }
 
+#participant-locations-form ng-select {
+  min-width: 250px;
+}
 #participant-locations-form button {
 	margin-left: 1rem;
 }
@@ -25,6 +28,9 @@
 }
 #starting-location-form {
   gap: 0 0.5rem;
+  > * {
+    flex: 1 1;
+  }
 }
 
 .participant-locations-container {

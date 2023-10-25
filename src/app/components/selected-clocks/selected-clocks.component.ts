@@ -48,7 +48,7 @@ export class SelectedClocksComponent implements OnInit {
     });
 
     ref.afterClosed().subscribe((res: undefined | Location) => {
-      if (res) {
+      if (res?.zone) {
         this.clocks.push(res);
         this.updateStorage();
       }
