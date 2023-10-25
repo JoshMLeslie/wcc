@@ -39,20 +39,15 @@ export class MeetingCalculatorComponent {
   addLocationForm = new FormControl();
   locations: DateTime[] = [];
 
+  get selectedTime(): DateTime {
+    return this.startTimeForm.get('selectedTime')?.value || DateTime.now();
+  }
   get mainTime(): string {
-    return (
-      this.startTimeForm
-        .get('selectedTime')
-        ?.value?.toLocaleString(DateTime.DATETIME_SHORT) || ''
-    );
+    return this.selectedTime.toLocaleString(DateTime.DATETIME_SHORT) || '';
   }
 
   get formattedTime(): string {
-    return (
-      this.startTimeForm
-        .get('selectedTime')
-        ?.value?.toLocaleString(DateTime.TIME_24_SIMPLE) || ''
-    );
+    return this.selectedTime.toLocaleString(DateTime.TIME_24_SIMPLE) || '';
   }
 
   constructor(
@@ -100,9 +95,7 @@ export class MeetingCalculatorComponent {
   updateTime(event: any) {
     const [hour, minute] = event.target.value.split(':');
 
-    const selectedTime =
-      this.startTimeForm.get('selectedTime')?.value || DateTime.now();
-    const newTime = selectedTime.set({
+    const newTime = this.selectedTime.set({
       hour: +hour,
       minute: +minute,
     });
@@ -117,9 +110,7 @@ export class MeetingCalculatorComponent {
       .pipe(take(1))
       .subscribe((clocks) => {
         const selectedClocks = clocks.map((c) => {
-          const newTime =
-            this.startTimeForm.get('selectedTime')?.value || DateTime.now();
-          return newTime.setZone(c.zone);
+          return this.selectedTime.setZone(c.zone);
         });
         this.locations.push(...selectedClocks);
       });
@@ -131,8 +122,7 @@ export class MeetingCalculatorComponent {
     if (!zone) {
       return;
     }
-    this.locations.push(DateTime.local({ zone }));
-    // async scroll after update
+    this.locations.push(this.selectedTime.setZone(zone));
     scrollToBottom();
   }
 
