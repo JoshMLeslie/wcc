@@ -1,11 +1,20 @@
 <h1 mat-dialog-title>Add new clock</h1>
 <div mat-dialog-content>
-	<mat-form-field>
+	<ng-select
+	[items]="timeZone | keyvalue"
+           bindLabel="value"
+           autofocus
+           bindValue="value"
+           [(ngModel)]="selectedZone">
+</ng-select>
+
+	
+	<!-- <mat-form-field>
 		<mat-label>Time Zone</mat-label>
 		<mat-select [(ngModel)]="selectedZone">
 			<mat-option *ngFor="let option of timeZone | keyvalue" [value]="option.value">{{option.value | camelNormal}}</mat-option>
 		</mat-select>
-	</mat-form-field>
+	</mat-form-field> -->
 </div>
 <div mat-dialog-actions>
 	<button mat-button mat-dialog-close>Cancel</button>

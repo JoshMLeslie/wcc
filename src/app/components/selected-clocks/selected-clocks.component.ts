@@ -43,7 +43,9 @@ export class SelectedClocksComponent implements OnInit {
   }
 
   addClockToken() {
-    const ref = this.matDialog.open(AddClockTokenComponent);
+    const ref = this.matDialog.open(AddClockTokenComponent, {
+      panelClass: 'fix-mat-dialog-ng-select'
+    });
 
     ref.afterClosed().subscribe((res: undefined | Location) => {
       if (res) {
