@@ -1,36 +1,27 @@
 import { Component } from '@angular/core';
-import {
-  FormControl,
-  FormGroup
-} from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { DateTime } from 'luxon';
 import { pairwise, startWith, take } from 'rxjs';
 import { TimeZone } from '../../interface/time-zone';
 import { SelectedClocksService } from '../../service/selected-clocks.service';
 import { TimeService } from '../../service/time.service';
 
+const scrollToBottom = (): void => {
+  setTimeout(
+    () =>
+      window.scrollTo({
+        behavior: 'smooth',
+        top: window.document.body.scrollHeight,
+      }),
+    100
+  );
+};
+
 interface MeetingForm {
   selectedZone: TimeZone;
   selectedDate: DateTime;
   selectedTime: DateTime;
 }
-
-const updateDateTime = (old: DateTime, update: Partial<DateTime>): DateTime => {
-  return DateTime.fromObject(
-    {
-      hour: update?.hour || old.hour,
-      minute: update?.minute || old.minute,
-      second: update?.second || old.second,
-      millisecond: update?.millisecond || old.millisecond,
-      day: update?.day || old.day,
-      month: update?.month || old.month,
-      year: update?.year || old.year,
-    },
-    {
-      zone: update?.zone || old.zone,
-    }
-  );
-};
 
 @Component({
   selector: 'app-meeting-calculator',
@@ -125,12 +116,14 @@ export class MeetingCalculatorComponent {
     this.selectedClocksService.selectedClocks
       .pipe(take(1))
       .subscribe((clocks) => {
-        const selectedClocks = clocks.map(c => {
-          const newTime = this.startTimeForm.get('selectedTime')?.value || DateTime.now();
-          return newTime.setZone(c.zone)
-        })
+        const selectedClocks = clocks.map((c) => {
+          const newTime =
+            this.startTimeForm.get('selectedTime')?.value || DateTime.now();
+          return newTime.setZone(c.zone);
+        });
         this.locations.push(...selectedClocks);
       });
+    scrollToBottom();
   }
 
   addLocation() {
@@ -140,14 +133,7 @@ export class MeetingCalculatorComponent {
     }
     this.locations.push(DateTime.local({ zone }));
     // async scroll after update
-    setTimeout(
-      () =>
-        window.scrollTo({
-          behavior: 'smooth',
-          top: window.document.body.scrollHeight,
-        }),
-      100
-    );
+    scrollToBottom();
   }
 
   removeLocation(index: number): void {
