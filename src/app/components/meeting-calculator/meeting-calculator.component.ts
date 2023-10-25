@@ -1,15 +1,13 @@
 import { Component } from '@angular/core';
 import {
-  AbstractControl,
-  FormArray,
   FormControl,
-  FormGroup,
+  FormGroup
 } from '@angular/forms';
 import { DateTime } from 'luxon';
-import { pairwise, startWith } from 'rxjs';
-import { Location } from 'src/app/interface/location';
-import { TimeZone } from 'src/app/interface/time-zone';
-import { TimeService } from 'src/app/service/time.service';
+import { pairwise, startWith, take } from 'rxjs';
+import { TimeZone } from '../../interface/time-zone';
+import { SelectedClocksService } from '../../service/selected-clocks.service';
+import { TimeService } from '../../service/time.service';
 
 interface MeetingForm {
   selectedZone: TimeZone;

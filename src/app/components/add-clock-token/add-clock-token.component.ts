@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Location } from 'src/app/interface/location';
-import { TimeZone } from 'src/app/interface/time-zone';
+import { Location } from '../../interface/location';
+import { TimeZone } from '../../interface/time-zone';
 
 @Component({
   selector: 'app-add-clock-token',

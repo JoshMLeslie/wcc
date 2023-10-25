@@ -1,8 +1,8 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { SelectedClocksService } from 'src/app/service/selected-clocks.service';
-import { TimeService } from 'src/app/service/time.service';
+import { SelectedClocksService } from '../../service/selected-clocks.service';
+import { TimeService } from '../../service/time.service';
 import { Location } from '../../interface/location';
 import { AddClockTokenComponent } from '../add-clock-token/add-clock-token.component';
 
