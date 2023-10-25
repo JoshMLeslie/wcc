@@ -88,6 +88,9 @@ THE SOFTWARE.
 @angular/platform-browser
 MIT
 
+@ng-select/ng-select
+MIT
+
 luxon
 MIT
 Copyright 2019 JS Foundation and other contributors
