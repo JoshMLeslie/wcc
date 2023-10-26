@@ -3,15 +3,17 @@
 		<h2>Plan a Meeting</h2>
 	</div>
 	<div id="starting-location-header">
-		<h3>Starting Location, Time, and Date</h3>
+		<div>
+			<h3>Starting Location, Date, and Time</h3>
+			<div id="time-output">
+				{{utc}} {{shortTime}}
+			</div>
+		</div>
 		<button mat-mini-fab color="primary" (click)="refresh()">
 			<mat-icon>refresh</mat-icon>
 		</button>
 	</div>
 	<div class="starting-location-container">
-		<div id="time-output">
-			{{utc}} {{shortTime}}
-		</div>
 		<form id="starting-location-form" [formGroup]="startTimeForm">
 
 			<ng-select formControlName="selectedZone" placeholder="Zone">
@@ -20,9 +22,6 @@
 				</ng-option>
 			</ng-select>
 
-			<mat-form-field appearance="outline">
-				<input matInput type="time" (change)="updateTime($event)" [value]="milTime">
-			</mat-form-field>
 
 			<mat-form-field appearance="outline">
 				<input matInput [matDatepicker]="picker" formControlName="selectedDate">
@@ -30,6 +29,9 @@
 				<mat-datepicker #picker></mat-datepicker>
 			</mat-form-field>
 
+			<mat-form-field appearance="outline">
+				<input matInput type="time" (change)="updateTime($event)" [value]="milTime">
+			</mat-form-field>
 		</form>
 	</div>
 	<div class="participant-locations-container">
