@@ -31,12 +31,13 @@ interface MeetingForm {
 })
 export class MeetingCalculatorComponent {
   readonly timeZone = TimeZone;
-  utc = this.timeService.formatUTCOffset({ zone: this.timeService.localZone });
   startTimeForm = new FormGroup({
     selectedZone: new FormControl(this.timeService.localZone),
     selectedDate: new FormControl(DateTime.now()),
     selectedTime: new FormControl(DateTime.now()),
   });
+
+  utc = this.timeService.formatUTCOffset(this.timeService.localZone);
   addLocationForm = new FormControl();
   locations: DateTime[] = [];
 
@@ -54,6 +55,7 @@ export class MeetingCalculatorComponent {
     public selectedClocksService: SelectedClocksService,
     public timeService: TimeService
   ) {
+    (window as any).datetime = DateTime;
     this.startTimeForm.valueChanges
       .pipe(startWith({}), pairwise())
       .subscribe(([previous, latest]) => {
@@ -74,7 +76,7 @@ export class MeetingCalculatorComponent {
             selectedTime: time.setZone(zone),
             selectedDate: date.setZone(zone),
           });
-          this.utc = this.timeService.formatUTCOffset({ zone });
+          this.utc = this.timeService.formatUTCOffset(zone);
         }
 
         if (+prevDate !== +date) {
@@ -143,7 +145,11 @@ export class MeetingCalculatorComponent {
   }
 
   formatLocationTime(location: DateTime): string {
-    return location.toLocaleString(DateTime.DATETIME_SHORT);
+    return (
+      this.timeService.formatUTCOffset(location.zoneName as TimeZone, location) +
+      ' ' +
+      location.toLocaleString(DateTime.DATETIME_SHORT)
+    );
   }
 
   dragDrop(event: CdkDragDrop<string[]>) {
