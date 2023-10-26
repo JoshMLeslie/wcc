@@ -13,18 +13,7 @@ import { DateTime } from 'luxon';
 import { Subject, takeUntil } from 'rxjs';
 import { Location } from '../../interface/location';
 import { TimeService } from '../../service/time.service';
-
-const sixtyToDeg = (min: number): number => {
-  const deg = (360 * min) / 60 + 180; // 180 is 0:00;
-  return deg;
-};
-// hr is 24hr based
-const twentyfourToDeg = (hr: number): number =>
-  Math.abs(360 * (Math.abs(12 - hr) / 12) + 180); // 180 is 0:00;
-const sixtyToCSSTransform = (min: number): string =>
-  `translate(0, 12px) rotate(${sixtyToDeg(min)}deg)`;
-const twentyfourToCSSTransform = (hr: number): string =>
-  `translate(0, 8px) rotate(${twentyfourToDeg(hr)}deg)`;
+import { sixtyToCSS, twentyfourToCSS } from './clock-token.helper';
 
 @Component({
   selector: 'app-clock-token',
@@ -33,7 +22,7 @@ const twentyfourToCSSTransform = (hr: number): string =>
   encapsulation: ViewEncapsulation.None,
 })
 export class ClockTokenComponent implements OnInit, OnDestroy {
-  @Input() data?: Location;
+  @Input({ required: true }) data!: Location;
   @Output() delete = new EventEmitter<void>();
 
   @ViewChild('hourHand', { static: true })
@@ -42,12 +31,9 @@ export class ClockTokenComponent implements OnInit, OnDestroy {
   minuteHand!: ElementRef<HTMLDivElement>;
 
   destroy$ = new Subject<void>();
-  runSeconds$ = new Subject<void>();
-  secondToggle$ = new Subject<void>();
 
   location: string[] = [];
   utc: string = '';
-
 
   constructor(public timeService: TimeService) {
     timeService.currentByMin$
@@ -56,21 +42,15 @@ export class ClockTokenComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    if (!this.data?.zone) {
-      return;
-    }
-
     const { zone } = this.data;
     this.location = zone.replace('_', ' ').split('/');
     this.utc = this.timeService.formatUTCOffset({ zone });
 
     // trigger initial UI update before timeService updates
     setTimeout(() => {
-      const { hour, minute } = DateTime.now().setZone(this.data?.zone);
-      this.hourHand.nativeElement.style.transform =
-        twentyfourToCSSTransform(hour);
-      this.minuteHand.nativeElement.style.transform =
-        sixtyToCSSTransform(minute);
+      const { hour, minute } = DateTime.now().setZone(zone)!;
+      this.setHourPosition(hour);
+      this.setMinutePosition(minute);
     }, 1000);
 
     setTimeout(() => {
@@ -87,17 +67,24 @@ export class ClockTokenComponent implements OnInit, OnDestroy {
     this.delete.next();
   }
 
+  private setHourPosition(hour: number) {
+    this.hourHand.nativeElement.style.transform = twentyfourToCSS(hour);
+  }
+
+  private setMinutePosition(min: number) {
+    this.minuteHand.nativeElement.style.transform = sixtyToCSS(min);
+  }
+
   private setTime(d: DateTime) {
-    const { hour, minute } = d.setZone(this.data?.zone);
-    // add / remove transition value to prevent crazy spinning
+    const { hour, minute } = d.setZone(this.data.zone);
+    // add / remove transition value to prevent crazy spinning when degrees reset
     if (minute > 59 || minute < 1) {
       this.minuteHand.nativeElement.style.transition = 'unset';
     } else {
       this.minuteHand.nativeElement.style.transition =
         'transform 100ms ease-in-out';
     }
-    this.hourHand.nativeElement.style.transform =
-      twentyfourToCSSTransform(hour);
-    this.minuteHand.nativeElement.style.transform = sixtyToCSSTransform(minute);
+    this.setHourPosition(hour);
+    this.setMinutePosition(minute);
   }
 }
