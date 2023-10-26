@@ -1,9 +1,9 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Location } from '../../interface/location';
 import { SelectedClocksService } from '../../service/selected-clocks.service';
 import { TimeService } from '../../service/time.service';
-import { Location } from '../../interface/location';
 import { AddClockTokenComponent } from '../add-clock-token/add-clock-token.component';
 
 @Component({
@@ -37,14 +37,13 @@ export class SelectedClocksComponent implements OnInit {
           zone: this.timeService.localZone,
         });
       }
-      
       this.selectedClocksService.update(this.clocks);
     } catch {}
   }
 
   addClockToken() {
     const ref = this.matDialog.open(AddClockTokenComponent, {
-      panelClass: 'fix-mat-dialog-ng-select'
+      panelClass: 'fix-mat-dialog-ng-select',
     });
 
     ref.afterClosed().subscribe((res: undefined | Location) => {
