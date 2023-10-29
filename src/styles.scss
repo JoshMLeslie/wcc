@@ -50,7 +50,13 @@ app-timezone-select {
 	
 		.ng-value-container {
 			border-top: none;
+      align-items: center;
 		}
+
+    .ng-value-container .ng-input[role="combobox"] {
+      margin-left: 1rem;
+      bottom: unset;
+    }
 	
 		div.ng-value-container ~ span.ng-clear-wrapper {
 			bottom: 18px;
