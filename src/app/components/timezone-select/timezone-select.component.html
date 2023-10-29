@@ -3,6 +3,7 @@
 					 groupBy="zones"
 					 bindLabel="prettyFull"
 					 bindValue="full"
+					 [ngModel]="selected"
 					 (change)="selectZone($event)"
 					 >
 	<ng-template ng-optgroup-tmp

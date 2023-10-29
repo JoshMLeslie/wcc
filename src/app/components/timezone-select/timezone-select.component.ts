@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, forwardRef } from '@angular/core';
+import { Component, forwardRef } from '@angular/core';
 import {
   ControlValueAccessor,
   FormsModule,
@@ -11,7 +11,7 @@ import { tzToUIArr } from '../../helper/time-zone.helper';
 import { TimeZone, UIZone } from '../../interface/time-zone';
 import { CamelToNormPipe } from '../../pipe/camel-normal.pipe';
 
-type OnChange = (tz: TimeZone) => any;
+type OnChange = (tz: TimeZone) => unknown;
 
 @Component({
   selector: 'app-timezone-select',
@@ -52,7 +52,7 @@ export class TimezoneSelectComponent implements ControlValueAccessor {
   registerOnTouched(fn: OnChange): void {
     this.onTouched = fn;
   }
-  writeValue(tz: UIZone): void {
-    this.selected = tz.full;
+  writeValue(tz: TimeZone): void {
+    this.selected = tz;
   }
 }
