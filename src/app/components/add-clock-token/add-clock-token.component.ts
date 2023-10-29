@@ -2,6 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Location } from '../../interface/location';
 import { TimeZone } from '../../interface/time-zone';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-add-clock-token',
@@ -10,7 +11,7 @@ import { TimeZone } from '../../interface/time-zone';
 })
 export class AddClockTokenComponent {
   timeZone = TimeZone;
-  selectedZone!: TimeZone;
+  selectedZone = new FormControl();
 
   constructor(
     public matDialogRef: MatDialogRef<AddClockTokenComponent>,
@@ -19,7 +20,7 @@ export class AddClockTokenComponent {
 
   submit() {
     this.matDialogRef.close({
-      zone: this.selectedZone
+      zone: this.selectedZone.value
     } as Location);
   }
 }
