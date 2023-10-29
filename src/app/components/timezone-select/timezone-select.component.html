@@ -1,0 +1,18 @@
+<ng-select [items]="timeZone"
+					 placeholder="Zone"
+					 groupBy="zones"
+					 bindLabel="prettyFull"
+					 bindValue="full"
+					 (change)="selectZone($event)"
+					 >
+	<ng-template ng-optgroup-tmp
+							 let-item="item">
+		{{item.zone | camelNormal}}
+	</ng-template>
+	<ng-template ng-option-tmp
+							 let-item="item">
+		<span [class]="item.parent">
+			{{item.zone | camelNormal}}
+		</span>
+	</ng-template>
+</ng-select>
