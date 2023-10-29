@@ -2,8 +2,10 @@
 	<button type="button" class="clock-token" (click)="emitDelete()">
 		<img src="assets/svg/face.svg" alt="clock face">
 		<div class="clock-token-time">
-			<div #minuteHand class="minute-hand"></div>
-			<div #hourHand class="hour-hand"></div>
+			<div #minuteHand class="minute-hand one"></div>
+			<div #minuteHandTwo class="minute-hand two"></div>
+			<div #hourHand class="hour-hand one"></div>
+			<div #hourHandTwo class="hour-hand two"></div>
 		</div>
 	</button>
 	<span class="clock-token-name">{{location[0]}}</span>

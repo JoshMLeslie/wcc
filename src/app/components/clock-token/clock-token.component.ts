@@ -29,6 +29,10 @@ export class ClockTokenComponent implements OnInit, OnDestroy {
   hourHand!: ElementRef<HTMLDivElement>;
   @ViewChild('minuteHand', { static: true })
   minuteHand!: ElementRef<HTMLDivElement>;
+  @ViewChild('hourHandTwo', { static: true })
+  hourHandTwo!: ElementRef<HTMLDivElement>;
+  @ViewChild('minuteHandTwo', { static: true })
+  minuteHandTwo!: ElementRef<HTMLDivElement>;
 
   destroy$ = new Subject<void>();
 
@@ -69,10 +73,12 @@ export class ClockTokenComponent implements OnInit, OnDestroy {
 
   private setHourPosition(hour: number) {
     this.hourHand.nativeElement.style.transform = twentyfourToCSS(hour);
+    this.hourHandTwo.nativeElement.style.transform = twentyfourToCSS(hour);
   }
 
   private setMinutePosition(min: number) {
     this.minuteHand.nativeElement.style.transform = sixtyToCSS(min);
+    this.minuteHandTwo.nativeElement.style.transform = sixtyToCSS(min);
   }
 
   private setTime(d: DateTime) {
@@ -80,8 +86,11 @@ export class ClockTokenComponent implements OnInit, OnDestroy {
     // add / remove transition value to prevent crazy spinning when degrees reset
     if (minute > 59 || minute < 1) {
       this.minuteHand.nativeElement.style.transition = 'unset';
+      this.minuteHandTwo.nativeElement.style.transition = 'unset';
     } else {
       this.minuteHand.nativeElement.style.transition =
+        'transform 100ms ease-in-out';
+      this.minuteHandTwo.nativeElement.style.transition =
         'transform 100ms ease-in-out';
     }
     this.setHourPosition(hour);

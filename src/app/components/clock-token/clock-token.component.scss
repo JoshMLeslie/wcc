@@ -26,13 +26,6 @@
   cursor: pointer;
 }
 
-.clock-token-container.editable .clock-token {
-  transition: background-color 200ms ease-in-out;
-  &:hover {
-    background-color: red;
-  }
-}
-
 .clock-token-time {
   position: absolute;
   display: flex;
@@ -42,6 +35,28 @@
   min-width: 4rem;
   height: 4rem;
   width: 4rem;
+  transition: background-color 200ms ease-in-out;
+
+  // token-face hover delete
+  // 45, 135, 225, 315
+  &:hover {
+    background-color: red;
+
+    .minute-hand.one {
+      transform: translate(0, 12px) rotate(45deg) !important; // half height
+    }
+    .minute-hand.two {
+      transform: translate(0, 12px) rotate(225deg) !important; // half height
+    }
+    .hour-hand.one {
+      transform: translate(0, 8px) rotate(135deg) !important; // half height
+    }
+    .hour-hand.two {
+      transform: translate(0, 8px) rotate(315deg) !important; // half height
+    }
+    
+    
+  }
 
   .hour-hand,
   .minute-hand {
