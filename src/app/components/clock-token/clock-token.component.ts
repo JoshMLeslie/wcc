@@ -48,7 +48,7 @@ export class ClockTokenComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     const { zone } = this.data;
     this.location = zone.replace('_', ' ').split('/');
-    this.utc = this.timeService.formatUTCOffset(zone);
+    this.utc = this.timeService.formatUTCOffset(zone, DateTime.local({ zone }));
 
     // trigger initial UI update before timeService updates
     setTimeout(() => {

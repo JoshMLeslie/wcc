@@ -18,10 +18,8 @@ export class TimeService {
   currentDate = DateTime.now().toISODate();
   localZone = Intl.DateTimeFormat().resolvedOptions().timeZone as TimeZone;
 
-  formatUTCOffset(zone: TimeZone, dt?: DateTime): string {
-    const offset = (dt || DateTime.now())
-      .setZone(zone)
-      .zone.formatOffset(0, 'narrow');
+  formatUTCOffset(zone: TimeZone, dt: DateTime): string {
+    const offset = dt.setZone(zone).zone.formatOffset(dt.toMillis(), 'narrow');
     return `UTC${offset}`;
   }
 }

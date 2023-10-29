@@ -36,11 +36,11 @@ export class MeetingCalculatorComponent {
 
   startTimeForm = new FormGroup({
     selectedZone: new FormControl(this.timeService.localZone),
-    selectedDate: new FormControl(DateTime.now()),
-    selectedTime: new FormControl(DateTime.now()),
+    selectedDate: new FormControl(DateTime.local()),
+    selectedTime: new FormControl(DateTime.local()),
   });
 
-  utc = this.timeService.formatUTCOffset(this.timeService.localZone);
+  utc = this.timeService.formatUTCOffset(this.timeService.localZone, DateTime.local());
   addLocationForm = new FormControl();
   locations: DateTime[] = [];
 
