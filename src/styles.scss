@@ -41,21 +41,27 @@ button {
 }
 
 // correction towards MUI style
-.ng-select .ng-select-container.ng-appearance-outline {
-  align-items: center;
-  &:after {
-    border-color: rgba(0, 0, 0, 0.38);
-  }
-
-  .ng-value-container {
-    border-top: none;
-  }
-
-  div.ng-value-container ~ span.ng-clear-wrapper {
-    bottom: 18px;
-    &:hover {
-      opacity: 1;
-      color: red;
-    }
-  }
+app-timezone-select {
+	.ng-select .ng-select-container.ng-appearance-outline {
+		align-items: center;
+		&:after {
+			border-color: rgba(0, 0, 0, 0.38);
+		}
+	
+		.ng-value-container {
+			border-top: none;
+		}
+	
+		div.ng-value-container ~ span.ng-clear-wrapper {
+			bottom: 18px;
+			&:hover {
+				opacity: 1;
+				color: red;
+			}
+		}
+	}
+	.ng-select .ng-placeholder {
+		background-color: aliceblue;
+		margin-top: -4px;
+	}
 }
