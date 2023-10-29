@@ -42,13 +42,7 @@
 		<div id="participant-locations-header">
 			<h3>Participant Locations</h3>
 			<form id="participant-locations-form">
-				<ng-select [formControl]="addLocationForm"
-									 placeholder="Zone">
-					<ng-option *ngFor="let option of timeZone | keyvalue"
-										 [value]="option.value">
-						{{option.value | camelNormal}}
-					</ng-option>
-				</ng-select>
+				<app-timezone-select [formControl]="addLocationForm"></app-timezone-select>
 
 				<button mat-raised-button
 								color="primary"
