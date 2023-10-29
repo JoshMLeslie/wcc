@@ -34,7 +34,7 @@ export class SelectedClocksComponent implements OnInit {
         this.clocks.push(...JSON.parse(clocks));
       } else {
         this.clocks.push({
-          zone: this.timeService.localZone,
+          zone: TimeService.localZone,
         });
       }
       this.selectedClocksService.update(this.clocks);

@@ -1,12 +1,12 @@
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { DateTime } from 'luxon';
-import { pairwise, startWith, take } from 'rxjs';
-import { TimeZone } from '../../interface/time-zone';
+import { Observable, pairwise, startWith, take } from 'rxjs';
 import { tzToUIArr } from '../../helper/time-zone.helper';
+import { TimeZone } from '../../interface/time-zone';
 import { SelectedClocksService } from '../../service/selected-clocks.service';
 import { TimeService } from '../../service/time.service';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 const scrollToBottom = (): void => {
   setTimeout(
@@ -25,6 +25,12 @@ interface MeetingForm {
   selectedTime: DateTime;
 }
 
+const FormDefault = {
+  selectedZone: TimeService.localZone,
+  selectedDate: DateTime.local(),
+  selectedTime: DateTime.local(),
+};
+
 @Component({
   selector: 'app-meeting-calculator',
   templateUrl: './meeting-calculator.component.html',
@@ -35,12 +41,15 @@ export class MeetingCalculatorComponent {
   readonly timeZoneObj = tzToUIArr();
 
   startTimeForm = new FormGroup({
-    selectedZone: new FormControl(this.timeService.localZone),
-    selectedDate: new FormControl(DateTime.local()),
-    selectedTime: new FormControl(DateTime.local()),
+    selectedZone: new FormControl(FormDefault.selectedZone),
+    selectedDate: new FormControl(FormDefault.selectedDate),
+    selectedTime: new FormControl(FormDefault.selectedTime),
   });
 
-  utc = this.timeService.formatUTCOffset(this.timeService.localZone, DateTime.local());
+  utc = this.timeService.formatUTCOffset(
+    TimeService.localZone,
+    DateTime.local()
+  );
   addLocationForm = new FormControl();
   locations: DateTime[] = [];
 
@@ -58,42 +67,64 @@ export class MeetingCalculatorComponent {
     public selectedClocksService: SelectedClocksService,
     public timeService: TimeService
   ) {
-    this.startTimeForm.valueChanges
-      .pipe(startWith({}), pairwise())
+    (this.startTimeForm.valueChanges as Observable<MeetingForm>)
+      .pipe(
+        startWith({
+          selectedZone: FormDefault.selectedZone,
+          selectedDate: FormDefault.selectedDate,
+          selectedTime: FormDefault.selectedTime,
+        }),
+        pairwise()
+      )
       .subscribe(([previous, latest]) => {
         // nb. time update is handled in updateTime due to formatting constraints
-        const { selectedZone: prevZone, selectedDate: prevDate } =
-          previous as Required<MeetingForm>;
-        const { selectedTime: time, selectedDate: date } =
-          latest as Required<MeetingForm>;
-        let { selectedZone: zone } = latest as Required<MeetingForm>;
-
-        if (prevZone !== zone) {
-          if (!zone) {
-            zone = DateTime.now().zoneName as TimeZone;
-          }
-          this.startTimeForm.patchValue({
-            selectedTime: time.setZone(zone),
-            selectedDate: date.setZone(zone),
-          });
-          this.utc = this.timeService.formatUTCOffset(zone);
-        }
-
-        if (+prevDate !== +date) {
-          const newTime = time.set({
-            day: date.day,
-            month: date.month,
-            year: date.year,
-          });
-          this.startTimeForm.patchValue({
-            selectedTime: newTime,
-          });
-
-          this.locations = this.locations.map((loc) =>
-            newTime.setZone(loc.zone)
-          );
-        }
+        this.updateZone(
+          previous as Required<MeetingForm>,
+          latest as Required<MeetingForm>
+        );
+        this.updateDate(
+          previous as Required<MeetingForm>,
+          latest as Required<MeetingForm>
+        );
+        this.utc = this.timeService.formatUTCOffset(
+          latest.selectedZone,
+          latest.selectedDate
+        );
       });
+  }
+
+  updateZone(previous: MeetingForm, latest: MeetingForm) {
+    const { selectedZone: prevZone } = previous;
+    const { selectedTime: time, selectedDate: date } = latest;
+    let { selectedZone: zone } = latest;
+
+    if (prevZone !== zone) {
+      if (!zone) {
+        zone = DateTime.now().zoneName as TimeZone;
+      }
+      this.startTimeForm.patchValue({
+        selectedTime: time.setZone(zone),
+        selectedDate: date.setZone(zone),
+      });
+    }
+  }
+
+  updateDate(previous: MeetingForm, latest: MeetingForm) {
+    const { selectedDate: prevDate } = previous;
+    const { selectedTime: time, selectedDate: date } = latest;
+
+    if (+prevDate !== +date) {
+      const newTime = time.set({
+        day: date.day,
+        month: date.month,
+        year: date.year,
+      });
+      this.startTimeForm.patchValue({
+        selectedTime: newTime,
+      });
+
+      this.locations = this.locations.map((loc) => newTime.setZone(loc.zone));
+    }
   }
 
   // input based on `get formattedTime()`
@@ -161,7 +192,7 @@ export class MeetingCalculatorComponent {
 
   refresh(): void {
     this.startTimeForm.reset({
-      selectedZone: this.timeService.localZone,
+      selectedZone: TimeService.localZone,
       selectedDate: DateTime.now(),
       selectedTime: DateTime.now(),
     });

@@ -7,6 +7,8 @@ import { TimeZone } from '../interface/time-zone';
   providedIn: 'root',
 })
 export class TimeService {
+  static localZone = Intl.DateTimeFormat().resolvedOptions().timeZone as TimeZone;
+
   currentBySeconds$ = timer(1000 - DateTime.now().millisecond, 1000).pipe(
     map(() => DateTime.now())
   );
@@ -16,7 +18,6 @@ export class TimeService {
   );
 
   currentDate = DateTime.now().toISODate();
-  localZone = Intl.DateTimeFormat().resolvedOptions().timeZone as TimeZone;
 
   formatUTCOffset(zone: TimeZone, dt: DateTime): string {
     const offset = dt.setZone(zone).zone.formatOffset(dt.toMillis(), 'narrow');
