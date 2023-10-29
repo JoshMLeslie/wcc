@@ -33,7 +33,7 @@ export class ClockTokenComponent implements OnInit, OnDestroy {
   destroy$ = new Subject<void>();
 
   location: string[] = [];
-  utc: string = '';
+  utc = '';
 
   constructor(public timeService: TimeService) {
     timeService.currentByMin$
@@ -48,7 +48,7 @@ export class ClockTokenComponent implements OnInit, OnDestroy {
 
     // trigger initial UI update before timeService updates
     setTimeout(() => {
-      const { hour, minute } = DateTime.now().setZone(zone)!;
+      const { hour, minute } = DateTime.now().setZone(zone);
       this.setHourPosition(hour);
       this.setMinutePosition(minute);
     }, 1000);

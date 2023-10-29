@@ -1,11 +1,11 @@
 <div class="clock-token-container">
-	<div class="clock-token can-delete" (click)="emitDelete()">
-		<img src="assets/svg/face.svg">
+	<button type="button" class="clock-token can-delete" (click)="emitDelete()">
+		<img src="assets/svg/face.svg" alt="clock face">
 		<div class="clock-token-time">
 			<div #minuteHand class="minute-hand"></div>
 			<div #hourHand class="hour-hand"></div>
 		</div>
-	</div>
+	</button>
 	<span class="clock-token-name">{{location[0]}}</span>
 	<span class="clock-token-name">{{location[1]}}</span>
 	<span class="clock-token-utc">{{utc}}</span>

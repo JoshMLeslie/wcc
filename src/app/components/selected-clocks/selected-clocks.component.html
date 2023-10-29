@@ -6,17 +6,27 @@
 		<p>{{currentDate | date: "yyyy MMM dd"}} {{currentTime$ | async | date:"h:mm:ss a 'UTC'Z"}}</p>
 	</div>
 	<div id="clock-tokens">
-		<div id="add-clock-token" class="clock-token-container" (click)="addClockToken()">
+		<button type="button"
+						id="add-clock-token"
+						class="clock-token-container"
+						(click)="addClockToken()">
 			<div class="clock-token">
-				<img src="assets/svg/face.svg">
+				<img src="assets/svg/face.svg"
+						 alt="clock face">
 				<div class="clock-token-text">+</div>
 			</div>
 			<span class="clock-token-name">Add New</span>
-		</div>
-		<div class="clock-token-list" cdkDropList cdkDropListOrientation="horizontal"
-			(cdkDropListDropped)="dragDrop($event)">
-			<app-clock-token cdkDrag *ngFor="let clock of clocks; index as i" [data]="clock" (delete)="deleteToken(i)">
-				<div class="clock-token-placeholder" *cdkDragPlaceholder></div>
+		</button>
+		<div class="clock-token-list"
+				 cdkDropList
+				 cdkDropListOrientation="horizontal"
+				 (cdkDropListDropped)="dragDrop($event)">
+			<app-clock-token cdkDrag
+											 *ngFor="let clock of clocks; index as i"
+											 [data]="clock"
+											 (delete)="deleteToken(i)">
+				<div class="clock-token-placeholder"
+						 *cdkDragPlaceholder></div>
 			</app-clock-token>
 		</div>
 	</div>

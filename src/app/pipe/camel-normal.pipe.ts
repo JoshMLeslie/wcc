@@ -2,6 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
   name: 'camelNormal',
+  standalone: true,
 })
 export class CamelToNormPipe implements PipeTransform {
   transform(value: string | null | undefined): string {

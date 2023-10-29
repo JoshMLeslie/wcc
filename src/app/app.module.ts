@@ -22,6 +22,7 @@ import { MeetingCalculatorComponent } from './components/meeting-calculator/meet
 import { PlanMeetingComponent } from './components/plan-meeting/plan-meeting.component';
 import { SelectedClocksComponent } from './components/selected-clocks/selected-clocks.component';
 import { CamelToNormPipe } from './pipe/camel-normal.pipe';
+import { TimezoneSelectComponent } from './components/timezone-select/timezone-select.component';
 
 @NgModule({
   declarations: [
@@ -31,9 +32,9 @@ import { CamelToNormPipe } from './pipe/camel-normal.pipe';
     ClockTokenComponent,
     AddClockTokenComponent,
     MeetingCalculatorComponent,
-    CamelToNormPipe,
   ],
   imports: [
+    CamelToNormPipe,
     BrowserModule,
     MatDialogModule,
     MatButtonModule,
@@ -49,6 +50,7 @@ import { CamelToNormPipe } from './pipe/camel-normal.pipe';
     MatListModule,
     MatIconModule,
     NgSelectModule,
+    TimezoneSelectComponent,
   ],
   providers: [],
   bootstrap: [AppComponent],

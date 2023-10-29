@@ -38,7 +38,9 @@ export class SelectedClocksComponent implements OnInit {
         });
       }
       this.selectedClocksService.update(this.clocks);
-    } catch {}
+    } catch (e) {
+      console.warn(e);
+    }
   }
 
   addClockToken() {
