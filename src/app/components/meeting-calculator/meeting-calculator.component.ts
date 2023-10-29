@@ -3,6 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { DateTime } from 'luxon';
 import { pairwise, startWith, take } from 'rxjs';
 import { TimeZone } from '../../interface/time-zone';
+import { tzToUIArr } from '../../helper/time-zone.helper';
 import { SelectedClocksService } from '../../service/selected-clocks.service';
 import { TimeService } from '../../service/time.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
@@ -31,6 +32,8 @@ interface MeetingForm {
 })
 export class MeetingCalculatorComponent {
   readonly timeZone = TimeZone;
+  readonly timeZoneObj = tzToUIArr();
+
   startTimeForm = new FormGroup({
     selectedZone: new FormControl(this.timeService.localZone),
     selectedDate: new FormControl(DateTime.now()),
@@ -55,18 +58,16 @@ export class MeetingCalculatorComponent {
     public selectedClocksService: SelectedClocksService,
     public timeService: TimeService
   ) {
-    (window as any).datetime = DateTime;
+    console.log(this.timeZoneObj)
     this.startTimeForm.valueChanges
       .pipe(startWith({}), pairwise())
       .subscribe(([previous, latest]) => {
         // nb. time update is handled in updateTime due to formatting constraints
         const { selectedZone: prevZone, selectedDate: prevDate } =
           previous as Required<MeetingForm>;
-        let {
-          selectedZone: zone,
-          selectedTime: time,
-          selectedDate: date,
-        } = latest as Required<MeetingForm>;
+        const { selectedTime: time, selectedDate: date } =
+          latest as Required<MeetingForm>;
+        let { selectedZone: zone } = latest as Required<MeetingForm>;
 
         if (prevZone !== zone) {
           if (!zone) {
@@ -146,7 +147,10 @@ export class MeetingCalculatorComponent {
 
   formatLocationTime(location: DateTime): string {
     return (
-      this.timeService.formatUTCOffset(location.zoneName as TimeZone, location) +
+      this.timeService.formatUTCOffset(
+        location.zoneName as TimeZone,
+        location
+      ) +
       ' ' +
       location.toLocaleString(DateTime.DATETIME_SHORT)
     );
