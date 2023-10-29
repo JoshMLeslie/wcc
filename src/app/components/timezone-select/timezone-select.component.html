@@ -1,10 +1,10 @@
 <ng-select [items]="timeZone"
-					 placeholder="Zone"
 					 groupBy="zones"
 					 bindLabel="prettyFull"
 					 bindValue="full"
 					 [ngModel]="selected"
 					 (change)="selectZone($event)"
+					 appearance="outline"
 					 >
 	<ng-template ng-optgroup-tmp
 							 let-item="item">
