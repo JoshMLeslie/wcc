@@ -58,7 +58,6 @@ export class MeetingCalculatorComponent {
     public selectedClocksService: SelectedClocksService,
     public timeService: TimeService
   ) {
-    console.log(this.timeZoneObj)
     this.startTimeForm.valueChanges
       .pipe(startWith({}), pairwise())
       .subscribe(([previous, latest]) => {
