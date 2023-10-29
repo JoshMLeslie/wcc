@@ -62,9 +62,12 @@
 				<span matListItemTitle>{{location.zoneName | camelNormal}}</span>
 				<span matListItemLine>{{formatLocationTime(location)}}</span>
 
-				<mat-icon class="delete-participant-location"
-									(click)="removeLocation(i)"
-									fontIcon="delete"></mat-icon>
+				<button matListItemMeta
+								type="button"
+								class="delete-participant-location">
+					<mat-icon (click)="removeLocation(i)"
+										fontIcon="delete"></mat-icon>
+				</button>
 			</mat-list-item>
 		</mat-list>
 	</div>
