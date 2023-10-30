@@ -56,4 +56,9 @@
 
 #participant-locations-form button.mat-mdc-raised-button {
   height: 54px;
+
+  ::ng-deep span.mdc-button__label {
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
 }
