@@ -91,7 +91,6 @@ export class TimezoneSelectComponent implements ControlValueAccessor {
       ) {
         if (child.nativeElement.parentElement.style.display === 'none') {
           child.nativeElement.parentElement.style.display = 'inherit';
-          console.log(child.nativeElement.parentElement.style.display);
         } else {
           child.nativeElement.parentElement.style.display = 'none';
         }
