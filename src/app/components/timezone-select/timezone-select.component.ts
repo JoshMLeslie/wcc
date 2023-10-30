@@ -80,25 +80,24 @@ export class TimezoneSelectComponent implements ControlValueAccessor {
   // called on (click) to collapse all major zones
   toggleGroup(parentZone?: TimeZone) {
     this.loading = true;
-    this.zoneChildren?.forEach((child) => {
-      if (!child.nativeElement.parentElement) {
-        return;
-      }
-
-      if (
-        parentZone &&
-        child.nativeElement.classList.value.includes(parentZone)
-      ) {
-        if (child.nativeElement.parentElement.style.display === 'none') {
-          child.nativeElement.parentElement.style.display = 'inherit';
-        } else {
-          child.nativeElement.parentElement.style.display = 'none';
+    this.zoneChildren?.forEach(
+      ({ nativeElement: { parentElement, classList } }) => {
+        if (!parentElement) {
+          return;
         }
-      } else {
-        // one open at a time
-        child.nativeElement.parentElement.style.display = 'none';
+
+        if (parentZone && classList.value.includes(parentZone)) {
+          if (parentElement.style.display === 'none') {
+            parentElement.style.display = 'inherit';
+          } else {
+            parentElement.style.display = 'none';
+          }
+        } else {
+          // one open at a time
+          parentElement.style.display = 'none';
+        }
       }
-    });
+    );
     this.loading = false;
   }
 }
