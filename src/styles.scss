@@ -42,28 +42,40 @@ button {
 
 // correction towards MUI style
 app-timezone-select {
-	.ng-select .ng-select-container.ng-appearance-outline {
-		align-items: center;
-		&:after {
-			border-color: rgba(0, 0, 0, 0.38);
-		}
-	
-		.ng-value-container {
-			border-top: none;
+  .ng-select .ng-select-container.ng-appearance-outline {
+    align-items: center;
+    &:after {
+      border-color: rgba(0, 0, 0, 0.38);
+    }
+
+    .ng-value-container {
+      border-top: none;
       align-items: center;
-		}
+    }
 
     .ng-value-container .ng-input[role="combobox"] {
       bottom: unset;
       padding-left: 1rem;
     }
-	
-		div.ng-value-container ~ span.ng-clear-wrapper {
-			bottom: 18px;
-			&:hover {
-				opacity: 1;
-				color: red;
-			}
-		}
-	}
+
+    div.ng-value-container ~ span.ng-clear-wrapper {
+      bottom: 18px;
+      &:hover {
+        opacity: 1;
+        color: red;
+      }
+    }
+  }
+  .ng-dropdown-panel .ng-dropdown-panel-items div.ng-option-disabled.ng-optgroup {
+    padding: 0;
+
+    button {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      padding-left: 0.5rem;
+      justify-content: space-between;
+      align-items: center ;
+    }
+  }
 }

@@ -2,17 +2,25 @@
 					 groupBy="zones"
 					 bindLabel="prettyFull"
 					 bindValue="full"
+					 (open)="asyncCloseGroups()"
 					 [ngModel]="selected"
+					 [loading]="loading"
 					 (change)="selectZone($event)"
-					 appearance="outline"
-					 >
+					 appearance="outline">
 	<ng-template ng-optgroup-tmp
 							 let-item="item">
-		{{item.zone | camelNormal}}
+		<button type="button"
+						(click)="toggleGroup(item.zone)">
+			<span>
+				{{item.zone | camelNormal}}
+			</span>
+			<mat-icon>expand_more</mat-icon>
+		</button>
 	</ng-template>
 	<ng-template ng-option-tmp
 							 let-item="item">
-		<span [class]="item.parent">
+		<span [class]="item.parent"
+					#zone>
 			{{item.zone | camelNormal}}
 		</span>
 	</ng-template>
