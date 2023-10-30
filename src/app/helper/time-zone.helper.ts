@@ -1,9 +1,9 @@
-import { TimeZone, UIZone } from '../interface/time-zone';
+import { TimeZone, UIZone, UIZoneData } from '../interface/time-zone';
 
 export const tzToUIArr = () => {
   // sort timezones into major zones
   // format zone data for UI handling
-  const obj = Object.values(TimeZone).reduce<Record<string, UIZone[]>>(
+  const obj = Object.values(TimeZone).reduce<Record<string, UIZoneData[]>>(
     (acc, str) => {
       const [parent, ...childZones] = str.split('/');
       if (!acc[parent]) {
@@ -24,16 +24,15 @@ export const tzToUIArr = () => {
   );
 
   // change dict into array for rendering
-  return Object.keys(obj).reduce<{ zone: string; zones: UIZone[] }[]>(
-    (acc, zone) => {
-      const zones = obj[zone];
-      return acc.concat([
-        {
-          zone,
-          zones,
-        },
-      ]);
-    },
-    []
-  );
+  return Object.keys(obj).reduce<UIZone []>((acc, zone) => {
+    const zones = obj[zone];
+    return acc.concat([
+      zones.length > 1
+        ? {
+            zone,
+            zones,
+          }
+        : zones[0],
+    ]);
+  }, []);
 };

@@ -1,9 +1,16 @@
-export interface UIZone {
+export interface UIZoneData {
   full: TimeZone;
   prettyFull: string;
   zone: string;
   parent?: string;
 }
+
+export type UIZone =
+  | UIZoneData
+  | {
+      zone?: string | UIZoneData;
+      zones?: UIZoneData[];
+    };
 
 export enum TimeZone {
   'AFRICA/ABIDJAN' = 'Africa/Abidjan',

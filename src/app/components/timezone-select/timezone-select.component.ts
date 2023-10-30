@@ -1,9 +1,8 @@
 import { CommonModule } from '@angular/common';
 import {
-  ChangeDetectorRef,
   Component,
   ElementRef,
-  NgZone,
+  ViewChild,
   ViewChildren,
   forwardRef,
 } from '@angular/core';
@@ -13,13 +12,13 @@ import {
   NG_VALUE_ACCESSOR,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { NgSelectModule } from '@ng-select/ng-select';
-import { tzToUIArr } from '../../helper/time-zone.helper';
-import { TimeZone, UIZone } from '../../interface/time-zone';
-import { CamelToNormPipe } from '../../pipe/camel-normal.pipe';
 import { MatIconModule } from '@angular/material/icon';
+import { NgSelectComponent, NgSelectModule } from '@ng-select/ng-select';
+import { tzToUIArr } from '../../helper/time-zone.helper';
+import { TimeZone, UIZoneData } from '../../interface/time-zone';
+import { CamelToNormPipe } from '../../pipe/camel-normal.pipe';
 
-type OnChange = (tz: TimeZone) => unknown;
+type OnChange = (tz?: TimeZone) => unknown;
 
 @Component({
   selector: 'app-timezone-select',
@@ -43,6 +42,7 @@ type OnChange = (tz: TimeZone) => unknown;
   ],
 })
 export class TimezoneSelectComponent implements ControlValueAccessor {
+  @ViewChild('ngselect', { static: true }) ngselect!: NgSelectComponent;
   @ViewChildren('zone') zoneChildren?: ElementRef<HTMLDivElement>[];
 
   readonly timeZone = tzToUIArr();
@@ -53,14 +53,14 @@ export class TimezoneSelectComponent implements ControlValueAccessor {
   selected?: TimeZone;
   loading = false;
 
-  constructor(public ngz: NgZone) {}
-
-  selectZone(tz: UIZone) {
-    if (!tz) {
-      return;
+  selectZone(tz?: UIZoneData) {
+    if (tz) {
+      this.selected = tz.full;
+      this.onChange(tz.full);
+    } else {
+      this.selected = undefined;
+      this.onChange(undefined);
     }
-    this.selected = tz.full;
-    this.onChange(tz.full);
   }
 
   registerOnChange(fn: OnChange): void {
@@ -73,8 +73,12 @@ export class TimezoneSelectComponent implements ControlValueAccessor {
     this.selected = tz;
   }
 
+  onClear() {
+    this.selectZone(undefined);
+  }
+
   asyncCloseGroups() {
-    setTimeout(() => this.toggleGroup(), 0);
+    setTimeout(this.toggleGroup.bind(this), 0);
   }
 
   // called on (click) to collapse all major zones

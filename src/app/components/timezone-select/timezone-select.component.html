@@ -1,26 +1,38 @@
-<ng-select [items]="timeZone"
-					 groupBy="zones"
-					 bindLabel="prettyFull"
+<ng-select #ngselect
+					 appearance="outline"
 					 bindValue="full"
-					 (open)="asyncCloseGroups()"
-					 [ngModel]="selected"
-					 [loading]="loading"
+					 bindLabel="prettyFull"
+					 groupBy="zones"
 					 (change)="selectZone($event)"
-					 appearance="outline">
+					 (open)="asyncCloseGroups()"
+					 [items]="timeZone"
+					 [loading]="loading"
+					 (clear)="onClear()"
+					 [ngModel]="selected">
 	<ng-template ng-optgroup-tmp
 							 let-item="item">
-		<button type="button"
-						(click)="toggleGroup(item.zone)">
-			<span>
-				{{item.zone | camelNormal}}
-			</span>
-			<mat-icon>expand_more</mat-icon>
-		</button>
+		<ng-container *ngIf="item.zones">
+			<button type="button"
+							(click)="toggleGroup(item.zone) ">
+				<span>
+					{{item.zone | camelNormal}}
+				</span>
+				<mat-icon>expand_more</mat-icon>
+			</button>
+		</ng-container>
+		<ng-container *ngIf="!item.zones">
+			<button type="button"
+							(click)="selectZone(item)">
+				<span>
+					{{item.prettyFull | camelNormal}}
+				</span>
+			</button>
+		</ng-container>
 	</ng-template>
 	<ng-template ng-option-tmp
 							 let-item="item">
-		<span [class]="item.parent"
-					#zone>
+		<span #zone
+					[class]="item.parent">
 			{{item.zone | camelNormal}}
 		</span>
 	</ng-template>
