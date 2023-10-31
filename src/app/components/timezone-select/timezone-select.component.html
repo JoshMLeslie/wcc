@@ -8,12 +8,13 @@
 					 [items]="timeZone"
 					 [loading]="loading"
 					 (clear)="onClear()"
+					 (search)="expandOnSearch($event)"
 					 [ngModel]="selected">
 	<ng-template ng-optgroup-tmp
 							 let-item="item">
 		<ng-container *ngIf="item.zones">
 			<button type="button"
-							(click)="toggleGroup(item.zone) ">
+							(click)="setGroupState(item.zone) ">
 				<span>
 					{{item.zone | camelNormal}}
 				</span>

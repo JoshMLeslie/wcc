@@ -63,6 +63,14 @@ export class TimezoneSelectComponent implements ControlValueAccessor {
     }
   }
 
+  expandOnSearch({ term, items }: { term: string; items: UIZoneData[] }): void {
+    if (term.length > 2) {
+      items.forEach(({ zone }) => {
+        this.setGroupState(zone, 'show', false);
+      });
+    }
+  }
+
   registerOnChange(fn: OnChange): void {
     this.onChange = fn;
   }
@@ -78,11 +86,15 @@ export class TimezoneSelectComponent implements ControlValueAccessor {
   }
 
   asyncCloseGroups() {
-    setTimeout(this.toggleGroup.bind(this), 0);
+    setTimeout(this.setGroupState.bind(this), 0);
   }
 
   // called on (click) to collapse all major zones
-  toggleGroup(parentZone?: TimeZone) {
+  setGroupState(
+    parentZone?: TimeZone,
+    setStateTo?: 'show' | 'hide',
+    collapseOthers = true
+  ) {
     this.loading = true;
     this.zoneChildren?.forEach(
       ({ nativeElement: { parentElement, classList } }) => {
@@ -91,12 +103,15 @@ export class TimezoneSelectComponent implements ControlValueAccessor {
         }
 
         if (parentZone && classList.value.includes(parentZone)) {
-          if (parentElement.style.display === 'none') {
-            parentElement.style.display = 'inherit';
+          if (setStateTo) {
+            parentElement.style.display =
+              setStateTo === 'show' ? 'inherit' : 'none';
           } else {
-            parentElement.style.display = 'none';
+            // toggle by default
+            parentElement.style.display =
+              parentElement.style.display === 'none' ? 'inherit' : 'none';
           }
-        } else {
+        } else if (collapseOthers) {
           // one open at a time
           parentElement.style.display = 'none';
         }

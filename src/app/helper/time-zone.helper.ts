@@ -29,12 +29,10 @@ export const tzToUIArr = () => {
     const zones = obj[zoneName];
 
     return acc.concat([
-      zones.length > 1
-        ? {
-            zone: zoneName,
-            zones,
-          }
-        : zones[0],
+      {
+        zone: zoneName,
+        zones,
+      },
     ]);
   }, []);
 };
