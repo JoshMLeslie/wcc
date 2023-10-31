@@ -3,14 +3,14 @@ import { TimeZone, UIZone, UIZoneData } from '../interface/time-zone';
 export const tzToUIArr = () => {
   // sort timezones into major zones
   // format zone data for UI handling
-  const obj = Object.values(TimeZone).reduce<Record<string, UIZoneData[]>>(
+  const obj = Object.values(TimeZone).reduce<Record<TimeZone, UIZoneData[]>>(
     (acc, str) => {
-      const [parent, ...childZones] = str.split('/');
+      const [parent, ...childZones] = str.split('/') as TimeZone[];
       if (!acc[parent]) {
         acc[parent] = [];
       }
       const prettyFull = str.replace(/_/g, ' ');
-      const zone = childZones.join('/') || parent;
+      const zone = (childZones.join('/') || parent) as TimeZone;
 
       acc[parent].push({
         full: str,
@@ -20,16 +20,18 @@ export const tzToUIArr = () => {
       });
       return acc;
     },
-    {}
+    {} as Record<TimeZone, UIZoneData[]>
   );
 
   // change dict into array for rendering
-  return Object.keys(obj).reduce<UIZone []>((acc, zone) => {
-    const zones = obj[zone];
+  return Object.keys(obj).reduce<UIZone[]>((acc, zone) => {
+    const zoneName = zone as TimeZone;
+    const zones = obj[zoneName];
+
     return acc.concat([
       zones.length > 1
         ? {
-            zone,
+            zone: zoneName,
             zones,
           }
         : zones[0],

@@ -1,14 +1,14 @@
 export interface UIZoneData {
   full: TimeZone;
   prettyFull: string;
-  zone: string;
-  parent?: string;
+  zone: TimeZone;
+  parent?: TimeZone;
 }
 
 export type UIZone =
   | UIZoneData
   | {
-      zone?: string | UIZoneData;
+      zone?: TimeZone | UIZoneData;
       zones?: UIZoneData[];
     };
 
