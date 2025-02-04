@@ -9,10 +9,11 @@
 				{{utc}} {{shortTime}}
 			</div>
 		</div>
-		<button mat-mini-fab
+		<button mat-fab extended
 						color="primary"
 						(click)="refresh()">
 			<mat-icon>refresh</mat-icon>
+			Reset to now
 		</button>
 	</div>
 	<div class="starting-location-container">
@@ -60,6 +61,7 @@
 							(cdkDropListDropped)="dragDrop($event)">
 			<mat-list-item cdkDrag
 										 *ngFor="let location of locations; index as i;">
+				<mat-icon matListItemIcon fontIcon="menu" style="cursor: pointer;"></mat-icon>
 				<span matListItemTitle>{{location.zoneName | camelNormal}}</span>
 				<span matListItemLine>{{formatLocationTime(location)}}</span>
 
