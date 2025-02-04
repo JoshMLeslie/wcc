@@ -6,7 +6,7 @@
 					 (change)="selectZone($event)"
 					 (open)="asyncCloseGroups()"
 					 [items]="timeZone"
-					 [loading]="loading"
+					 [loading]="loading$ | async"
 					 (clear)="onClear()"
 					 (search)="expandOnSearch($event)"
 					 [ngModel]="selected">

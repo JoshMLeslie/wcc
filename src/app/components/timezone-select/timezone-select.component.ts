@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import {
   Component,
   ElementRef,
+  EventEmitter,
   ViewChild,
   ViewChildren,
   forwardRef,
@@ -19,6 +20,7 @@ import { TimeZone, UIZoneData } from '../../interface/time-zone';
 import { CamelToNormPipe } from '../../pipe/camel-normal.pipe';
 
 type OnChange = (tz?: TimeZone) => unknown;
+const TimeZoneData = tzToUIArr();
 
 @Component({
   selector: 'app-timezone-select',
@@ -44,14 +46,14 @@ type OnChange = (tz?: TimeZone) => unknown;
 export class TimezoneSelectComponent implements ControlValueAccessor {
   @ViewChild('ngselect', { static: true }) ngselect!: NgSelectComponent;
   @ViewChildren('zone') zoneChildren?: ElementRef<HTMLDivElement>[];
+  loading$ = new EventEmitter(false);
 
-  readonly timeZone = tzToUIArr();
+  timeZone = TimeZoneData;
 
   onChange: OnChange = () => null;
   onTouched: OnChange = () => null;
 
   selected?: TimeZone;
-  loading = false;
 
   selectZone(tz?: UIZoneData) {
     if (tz) {
@@ -86,6 +88,7 @@ export class TimezoneSelectComponent implements ControlValueAccessor {
   }
 
   asyncCloseGroups() {
+    this.loading$.emit(true);
     setTimeout(this.setGroupState.bind(this), 0);
   }
 
@@ -95,7 +98,6 @@ export class TimezoneSelectComponent implements ControlValueAccessor {
     setStateTo?: 'show' | 'hide',
     collapseOthers = true
   ) {
-    this.loading = true;
     this.zoneChildren?.forEach(
       ({ nativeElement: { parentElement, classList } }) => {
         if (!parentElement) {
@@ -117,6 +119,6 @@ export class TimezoneSelectComponent implements ControlValueAccessor {
         }
       }
     );
-    this.loading = false;
+    this.loading$.emit(false);
   }
 }
